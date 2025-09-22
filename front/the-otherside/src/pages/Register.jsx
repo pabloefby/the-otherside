@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./Register.module.css";
 
 function Register() {
@@ -11,9 +12,9 @@ function Register() {
       {/* Elemento que contiene el formulario */}
       <div className={styles.register__data}>
         <form className={styles.register__form}>
-          <a href="" className={`btn ${styles["register__button--back"]}`}>
+          <Link to="/" className={`btn ${styles["register__button--back"]}`}>
             <i class="fa-solid fa-left-long"></i>
-          </a>
+          </Link>
           <h2 className={styles.register__subtitle}>REGISTRAR USUARIO</h2>
           <label className={styles.register__label}>Nombre de usuario</label>
           <input className={styles.register__input} type="text" />

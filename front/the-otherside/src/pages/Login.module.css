@@ -1,4 +1,4 @@
-.register {
+.login {
   background-image: url("../assets/background-login.png");
   display: grid;
   background-size: cover;
@@ -11,19 +11,19 @@
   background-color: #111111;
 }
 
-.register__presentation {
+.login__presentation {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.register__data {
+.login__data {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.register__form {
+.login__form {
   display: flex;
   width: 80%;
   flex-direction: column;
@@ -31,24 +31,29 @@
   justify-content: center;
 }
 
-.register__subtitle {
+.login__subtitle {
   color: white;
 }
-.register__label {
+.login__label {
   margin-top: 20px;
 }
-.register__input {
+.login__input {
   width: 60%;
   padding-bottom: 5px;
 }
-.register__button {
+.login__button {
   font-size: 20px;
 }
 
-.register__button--back {
-  font-size: 20px;
-  border-radius: 50%;
-  padding-left: 15px;
-  padding-right: 15px;
-  background-color: rgb(63, 63, 63);
+.login__register {
+  all: unset;
+  margin-top: 20px;
+  font-family: "Bree Serif", serif;
+  font-size: 18px;
+  color: rgb(172, 52, 52);
+  cursor: pointer;
+  transition: 0.25s;
+}
+.login__register:hover {
+  text-decoration: underline;
 }
