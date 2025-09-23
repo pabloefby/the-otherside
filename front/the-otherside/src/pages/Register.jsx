@@ -25,9 +25,9 @@ const sendInfo = async (e)=> {
 
     if(respuesta.data.msg ==="Bienvenido al culto"){
       alert("Registradooo"); 
-       redirect("/"); 
+      redirect("/"); 
     }else if(respuesta.data.msg==="Chale no se pudo"){
-      alert("uy no fuiste bienvenido"); 
+      alert("Uy no fuiste bienvenido"); 
       e.target.reset(); 
     }
   }catch(error){

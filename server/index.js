@@ -25,22 +25,53 @@ app.post("/register-point",
   (req, resp)=>{
     const {name, email, passW}=req.body; 
     
-    dbConn.query("CALL sp_Registro(?,?,?)", 
+    dbConn.query("CALL sp_Usuario(1,?,?,?)", 
       [name, email, passW], 
       (err, result)=> {
         if(err){
           resp.json({
-            msg:"Bienvenido al culto"
-          })
-          console.log(err); 
-        }else {
-          resp.json({
             msg:"Chale no se pudo"
           })
           console.log(result); 
+        }else {
+          resp.json({
+            msg:"Bienvenido al culto"
+          })
+          console.log(result);
         }
       }
-    )
-    
+    );
   }
- )
+ );
+
+app.post("/login-point",
+  (req, resp)=>{
+    const {name, passW} = req.body;
+
+    dbConn.query("CALL sp_Usuario(2,?,?,?)",
+      [name, null, passW],
+      (err, result)=>{  
+        if(err){
+          resp.json({
+            msg:"ERROR"
+          })
+          console.log(err);
+        }else{
+
+          if(result[0].length>0){
+            resp.json({ 
+              msg:"LOGIN EXITOSO",
+              user: result[0][0].NombreUsu
+            })
+            console.log(result);
+          }else{
+            resp.json({
+              msg:"NO ENCONTRADO"
+            })
+            console.log(result);
+          }
+        }
+      } 
+    );
+  }
+);
