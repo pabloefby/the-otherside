@@ -1,7 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
+import { useState } from "react";
+import axios from 'axios'; 
 
 function Register() {
+
+const [nombre, setNombre] = useState(''); 
+const [correo, setCorreo] = useState(''); 
+const [contra, setContra] = useState(''); 
+
+const redirect= useNavigate(); 
+
+const sendInfo = async (e)=> {
+  e.preventDefault(); 
+
+  try{
+    const respuesta= await axios.post("http://localhost:3001/register-point", 
+      {
+        name: nombre, 
+        email: correo, 
+        passW: contra 
+      }
+    )
+
+    if(respuesta.data.msg ==="Bienvenido al culto"){
+      alert("Registradooo"); 
+       redirect("/"); 
+    }else if(respuesta.data.msg==="Chale no se pudo"){
+      alert("uy no fuiste bienvenido"); 
+      e.target.reset(); 
+    }
+  }catch(error){
+    console.log(error); 
+    alert("Error en la peticion"); 
+  }
+}
+
   return (
     <div className={styles.register}>
       {/* Elemento de presentación */}
@@ -11,19 +45,25 @@ function Register() {
 
       {/* Elemento que contiene el formulario */}
       <div className={styles.register__data}>
-        <form className={styles.register__form}>
+        <form onSubmit={sendInfo}
+        className={styles.register__form}>
           <Link to="/" className={`btn ${styles["register__button--back"]}`}>
             <i class="fa-solid fa-left-long"></i>
           </Link>
           <h2 className={styles.register__subtitle}>REGISTRAR USUARIO</h2>
           <label className={styles.register__label}>Nombre de usuario</label>
-          <input className={styles.register__input} type="text" />
+          <input className={styles.register__input} type="text"
+          onChange={(e)=> setNombre(e.target.value)} />
 
           <label className={styles.register__label}>Correo electrónico</label>
-          <input className={styles.register__input} type="email" />
+          <input className={styles.register__input} type="email" 
+          onChange={(e)=> setCorreo(e.target.value)}
+          />
 
           <label className={styles.register__label}>Contraseña</label>
-          <input className={styles.register__input} type="password" />
+          <input className={styles.register__input} type="password" 
+          onChange={(e)=> setContra(e.target.value)}
+          />
           <button type="submit" className={styles.register__button}>
             Registrarse
           </button>
