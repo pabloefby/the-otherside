@@ -1,40 +1,49 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
 import { useState } from "react";
-import axios from 'axios'; 
+import axios from "axios";
 
 function Register() {
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [contra, setContra] = useState("");
 
-const [nombre, setNombre] = useState(''); 
-const [correo, setCorreo] = useState(''); 
-const [contra, setContra] = useState(''); 
+  const [showPass, setShowPass] = useState(false);
 
-const redirect= useNavigate(); 
+  const handleTogglePassword = () => {
+    setShowPass(!showPass);
+  };
 
-const sendInfo = async (e)=> {
-  e.preventDefault(); 
+  const EyeOpenIcon = () => <i class="fa-solid fa-eye"></i>;
+  const EyeCloseIcon = () => <i class="fa-solid fa-eye-slash"></i>;
 
-  try{
-    const respuesta= await axios.post("http://localhost:3001/register-point", 
-      {
-        name: nombre, 
-        email: correo, 
-        passW: contra 
+  const redirect = useNavigate();
+
+  const sendInfo = async (e) => {
+    e.preventDefault();
+
+    try {
+      const respuesta = await axios.post(
+        "http://localhost:3001/register-point",
+        {
+          name: nombre,
+          email: correo,
+          passW: contra,
+        }
+      );
+
+      if (respuesta.data.msg === "Bienvenido al culto") {
+        alert("Registradooo");
+        redirect("/");
+      } else if (respuesta.data.msg === "Chale no se pudo") {
+        alert("Uy no fuiste bienvenido");
+        e.target.reset();
       }
-    )
-
-    if(respuesta.data.msg ==="Bienvenido al culto"){
-      alert("Registradooo"); 
-      redirect("/"); 
-    }else if(respuesta.data.msg==="Chale no se pudo"){
-      alert("Uy no fuiste bienvenido"); 
-      e.target.reset(); 
+    } catch (error) {
+      console.log(error);
+      alert("Error en la peticion");
     }
-  }catch(error){
-    console.log(error); 
-    alert("Error en la peticion"); 
-  }
-}
+  };
 
   return (
     <div className={styles.register}>
@@ -45,25 +54,40 @@ const sendInfo = async (e)=> {
 
       {/* Elemento que contiene el formulario */}
       <div className={styles.register__data}>
-        <form onSubmit={sendInfo}
-        className={styles.register__form}>
+        <form onSubmit={sendInfo} className={styles.register__form}>
           <Link to="/" className={`btn ${styles["register__button--back"]}`}>
             <i class="fa-solid fa-left-long"></i>
           </Link>
           <h2 className={styles.register__subtitle}>REGISTRAR USUARIO</h2>
           <label className={styles.register__label}>Nombre de usuario</label>
-          <input className={styles.register__input} type="text"
-          onChange={(e)=> setNombre(e.target.value)} />
+          <input
+            className={styles.register__input}
+            type="text"
+            onChange={(e) => setNombre(e.target.value)}
+          />
 
           <label className={styles.register__label}>Correo electrónico</label>
-          <input className={styles.register__input} type="email" 
-          onChange={(e)=> setCorreo(e.target.value)}
+          <input
+            className={styles.register__input}
+            type="email"
+            onChange={(e) => setCorreo(e.target.value)}
           />
-
-          <label className={styles.register__label}>Contraseña</label>
-          <input className={styles.register__input} type="password" 
-          onChange={(e)=> setContra(e.target.value)}
-          />
+          <div className={styles["register__password-container"]}>
+            <label className={styles.register__label}>Contraseña</label>
+            <input
+              className={styles.register__input}
+              type={showPass ? "text " : "password"}
+              onChange={(e) => setContra(e.target.value)}
+            />
+            <button
+              type="button"
+              className={styles["register-button-password"]}
+              onClick={handleTogglePassword}
+            >
+              {/*  Mostramos un ícono u otro dependiendo del estado */}
+              {showPass ? <EyeCloseIcon /> : <EyeOpenIcon />}
+            </button>
+          </div>
           <button type="submit" className={styles.register__button}>
             Registrarse
           </button>

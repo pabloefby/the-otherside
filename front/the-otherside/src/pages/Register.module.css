@@ -52,3 +52,9 @@
   padding-right: 15px;
   background-color: rgb(63, 63, 63);
 }
+
+.register__password-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
