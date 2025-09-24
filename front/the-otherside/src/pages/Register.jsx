@@ -14,8 +14,7 @@ function Register() {
     setShowPass(!showPass);
   };
 
-  const EyeOpenIcon = () => <i class="fa-solid fa-eye"></i>;
-  const EyeCloseIcon = () => <i class="fa-solid fa-eye-slash"></i>;
+  const EyeIcon = () => <i class="fa-regular fa-eye"></i>;
 
   const redirect = useNavigate();
 
@@ -72,21 +71,27 @@ function Register() {
             type="email"
             onChange={(e) => setCorreo(e.target.value)}
           />
-          <div className={styles["register__password-container"]}>
+          <div className={styles["register__password-group"]}>
             <label className={styles.register__label}>Contraseña</label>
-            <input
-              className={styles.register__input}
-              type={showPass ? "text " : "password"}
-              onChange={(e) => setContra(e.target.value)}
-            />
-            <button
-              type="button"
-              className={styles["register-button-password"]}
-              onClick={handleTogglePassword}
-            >
-              {/*  Mostramos un ícono u otro dependiendo del estado */}
-              {showPass ? <EyeCloseIcon /> : <EyeOpenIcon />}
-            </button>
+
+            <div className={styles["register__input-group"]}>
+              <input
+                className={styles.register__input}
+                type={showPass ? "text " : "password"}
+                onChange={(e) => setContra(e.target.value)}
+              />
+              <button
+                type="button"
+                className={
+                  showPass
+                    ? styles["register__pasword-hide"]
+                    : styles["register__pasword-show"]
+                }
+                onClick={handleTogglePassword}
+              >
+                <EyeIcon />
+              </button>
+            </div>
           </div>
           <button type="submit" className={styles.register__button}>
             Registrarse

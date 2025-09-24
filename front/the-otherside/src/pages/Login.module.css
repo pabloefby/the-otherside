@@ -19,7 +19,8 @@
 
 .login__data {
   display: flex;
-  align-items: center;
+  align-items: start;
+  margin-top: 30%;
   justify-content: center;
 }
 

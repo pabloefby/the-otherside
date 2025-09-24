@@ -19,7 +19,8 @@
 
 .register__data {
   display: flex;
-  align-items: center;
+  align-items: start;
+  margin-top: 30%;
   justify-content: center;
 }
 
@@ -27,8 +28,9 @@
   display: flex;
   width: 80%;
   flex-direction: column;
-  align-items: flex-start;
   justify-content: center;
+  align-items: start;
+  position: relative;
 }
 
 .register__subtitle {
@@ -46,6 +48,9 @@
 }
 
 .register__button--back {
+  position: absolute;
+  left: -70px;
+  top: 0;
   font-size: 20px;
   border-radius: 50%;
   padding-left: 15px;
@@ -53,8 +58,32 @@
   background-color: rgb(63, 63, 63);
 }
 
-.register__password-container {
+.register__password-group {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.register__input-group button {
+  margin: 0;
+  background-color: transparent;
+  padding: 0;
+}
+
+.register__pasword-hide {
+  color: rgb(172, 52, 52);
+}
+
+.register__pasword-show {
+  color: rgb(146, 146, 146);
+}
+
+.register__input-group {
+  position: relative;
+}
+
+.register__pasword-show,
+.register__pasword-hide {
+  position: absolute;
+  right: 40%;
 }
