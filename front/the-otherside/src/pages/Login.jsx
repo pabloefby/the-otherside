@@ -42,9 +42,9 @@ function Login() {
   };
 
   function validateCredentialsLogin(usuario, password) {
-    if (usuario.length === null || password.length === null) {
+    if (usuario.length === 0 || password.length === 0) {
       return false;
-    }
+    }else 
     return true;
   }
   return (
@@ -66,6 +66,7 @@ function Login() {
               onChange={(e) => {
                 setNomusuario(e.target.value);
               }}
+              required
             />
 
             <label className={styles.login__label}>Contraseña</label>
@@ -75,6 +76,7 @@ function Login() {
               onChange={(e) => {
                 setContra(e.target.value);
               }}
+              required
             />
 
             <Link to="Register" className={styles.login__register}>

@@ -29,10 +29,16 @@ app.post("/register-point",
       [name, email, passW], 
       (err, result)=> {
         if(err){
-          resp.json({
+          if(err.code==="ER_DUP_ENTRY"){
+             resp.json({
+            msg:"Ya existe"
+          })
+          }else{
+             resp.json({
             msg:"Chale no se pudo"
           })
-          console.log(result); 
+          }
+          console.log(err); 
         }else {
           resp.json({
             msg:"Bienvenido al culto"

@@ -7,17 +7,22 @@ pcorreo varchar(255),
 ppassW varchar(255)
 )
 BEGIN 
+declare nombreU varchar(100); 
+declare correo varchar(255); 
+declare passW varchar(255); 
+SET nombreU= TRIM(pnombreU); 
+SET correo= TRIM(pcorreo); 
+SET passW= TRIM(ppassW);
+
 	#REGISTRO
 	IF op = 1 THEN
-		INSERT INTO Usuario (NombreUsu,Correo,Pssword) values (pnombreU,pcorreo,ppassW ); 
+		INSERT INTO Usuario (NombreUsu,Correo,Pssword) values (nombreU,correo,passW ); 
 	END IF;
 
 	#INICIO DE SESION 
 	IF op = 2 THEN
 		SELECT NombreUsu FROM Usuario 
-		WHERE NombreUsu = pnombreU AND Pssword = ppassW AND EstadoUsu = 0;
+		WHERE NombreUsu = nombreU AND Pssword = passW AND EstadoUsu = 0;
 	END IF;
 END $$
 DELIMITER ;
-
-CALL sp_Usuario(2, 'pablo23', null, 'perrito')

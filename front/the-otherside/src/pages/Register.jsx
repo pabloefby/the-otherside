@@ -44,6 +44,8 @@ function Register() {
       } else if (respuesta.data.msg === "Chale no se pudo") {
         alert("Uy no fuiste bienvenido");
         e.target.reset();
+      }else if(respuesta.data.msg==="Ya existe"){
+        alert("El nombre de usuario ya existe, favor de usar otro");
       }
     } catch (error) {
       console.log(error);
