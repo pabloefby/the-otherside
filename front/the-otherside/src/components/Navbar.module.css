@@ -44,6 +44,7 @@
   font-family: "Bree Serif", serif;
   color: white;
   font-size: 20px;
+  cursor: pointer;
 }
 
 .navbar__logOut {
@@ -51,6 +52,7 @@
   font-family: "Bree Serif", serif;
   color: rgb(158, 158, 158);
   font-size: 16px;
+  cursor: pointer;
 }
 
 .navbar__button {

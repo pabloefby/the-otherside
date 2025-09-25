@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
-
 import { useState } from "react";
 import axios from "axios";
 import { Navbar } from "../components/Navbar";
@@ -10,7 +9,7 @@ function Login() {
   const [contra, setContra] = useState("");
 
   const redirect = useNavigate();
-
+  localStorage.removeItem("user");
   const loginUser = async (e) => {
     e.preventDefault();
 
@@ -50,7 +49,6 @@ function Login() {
   }
   return (
     <div className={styles.body}>
-      <Navbar />
       <div className={styles.login}>
         {/* Elemento de presentación */}
         <div className={styles.login__presentation}>

@@ -3,6 +3,7 @@ import styles from "./Navbar.module.css";
 import defaultProfile from "../assets/defaultProfile.png";
 
 export function Navbar() {
+  const user = localStorage.getItem("user");
   return (
     <nav className={styles.navbar}>
       <h1 className={styles.navbar__logo}>The Otherside</h1>
@@ -26,7 +27,7 @@ export function Navbar() {
         </Link>
         <div className={styles.navbar__info}>
           <Link to="" className={styles.navbar__user}>
-            Nombre de usuario
+            {user}
           </Link>
           <Link to="/" className={styles.navbar__logOut}>
             Cerrar sesion
