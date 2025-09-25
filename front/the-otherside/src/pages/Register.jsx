@@ -21,6 +21,13 @@ function Register() {
   const sendInfo = async (e) => {
     e.preventDefault();
 
+    const validationErrors = validteCredentialsRegister(nombre, correo, contra);
+    
+    if (validationErrors.length > 0) {
+      alert(validationErrors.join("\n"));
+      return;
+    }
+
     try {
       const respuesta = await axios.post(
         "http://localhost:3001/register-point",
@@ -43,6 +50,27 @@ function Register() {
       alert("Error en la peticion");
     }
   };
+
+  function validteCredentialsRegister(usuario, email, password){
+    var errors = [];
+
+    const regexUser = /^[a-z0-9]{8,}$/;
+    const regesEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const regexPassword = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+    if (!regexUser.test(usuario)) {
+      errors.push("El nombre de usuario debe tener al menos 8 caracteres y solo puede contener letras minúsculas y números.");
+    }
+    if (!regesEmail.test(email)) {
+      errors.push("El correo electrónico no es válido.");
+    }
+    if (!regexPassword.test(password)) {
+      errors.push("La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un carácter especial.");
+    }
+
+    return errors;
+
+  }
 
   return (
     <div className={styles.register}>

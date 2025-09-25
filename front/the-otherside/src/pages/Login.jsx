@@ -14,6 +14,11 @@ function Login() {
   const loginUser = async (e) => {
     e.preventDefault();
 
+    if(!validateCredentialsLogin(nomusuario, contra)){
+      alert("Por favor llena todos los campos");
+      return;
+    }
+
     try{
 
       const respuesta = await axios.post("http://localhost:3001/login-point",
@@ -40,7 +45,15 @@ function Login() {
       alert("Error en la peticion");
     }
 
+  };
+
+  function validateCredentialsLogin(usuario, password){ 
+    if(usuario.length === null || password.length === null){
+      return false;
+    }
+    return true;
   }
+
   return (
     <div className={styles.login}>
       {/* Elemento de presentación */}
