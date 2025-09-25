@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -38,7 +44,7 @@ button {
   font-family: "Bree Serif", serif;
   color: rgb(255, 255, 255);
   cursor: pointer;
-  margin-top: 20px;
+
   border-radius: 10px;
   transition: 0.25s;
 }
@@ -81,4 +87,9 @@ input {
 
 input:hover {
   border-bottom: 2px solid white;
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
 }
