@@ -1,11 +1,15 @@
 .navbar {
-  background-color: #141414;
+  background-image: url("../assets/navbarBackground.png");
+  background-size: cover;
+  background-position: bottom;
   width: 100%;
+  height: 140px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  padding-top: 0px;
 }
 
 .navbar__session {
@@ -50,14 +54,19 @@
 .navbar__logOut {
   all: unset;
   font-family: "Bree Serif", serif;
-  color: rgb(158, 158, 158);
+  color: rgb(175, 175, 175);
   font-size: 16px;
   cursor: pointer;
 }
 
+.navbar__logOut:hover {
+  color: rgb(255, 255, 255);
+}
+
 .navbar__button {
   font-size: 20px;
-  color: rgb(153, 153, 153);
+  color: rgb(0, 0, 0);
+  text-shadow: 2px 2px 4px #00000075;
   background-color: transparent;
   cursor: pointer;
   display: flex;
