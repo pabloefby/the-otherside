@@ -10,16 +10,6 @@
   margin: 0 10%;
 }
 
-.home__ranking {
-  width: 100%;
-  background-color: rgb(24, 24, 24);
-  border-radius: 20px;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .home__ranking-element {
   display: flex;
   flex-direction: column;
@@ -41,7 +31,4 @@
 }
 
 .home__subtitle {
-  color: white;
-  font-size: 25px;
-  align-self: flex-start;
 }

@@ -18,8 +18,8 @@ function Home() {
       <div className={styles.home}>
         <h2 className={styles.home__welcome}>Bienvenido al culto {user}</h2>
         <div className={styles.home__collage}></div>
-        <div className={styles.home__ranking}>
-          <label className={styles.home__subtitle}>
+        <div className={"container"}>
+          <label className={"subtitle"}>
             Ciudades con mayor prescencia paranormal
           </label>
           <div className={styles["home__ranking-group"]}>
@@ -37,6 +37,9 @@ function Home() {
               </div>
             </div>
           </div>
+        </div>
+        <div className={"container"}>
+          <label className={"subtitle"}>Publicaciones mas recientes</label>
         </div>
       </div>
     </div>

@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import { useState } from "react";
 import axios from "axios";
-import { Navbar } from "../components/Navbar";
 
 function Login() {
   const [nomusuario, setNomusuario] = useState("");
@@ -44,8 +43,7 @@ function Login() {
   function validateCredentialsLogin(usuario, password) {
     if (usuario.length === 0 || password.length === 0) {
       return false;
-    }else 
-    return true;
+    } else return true;
   }
   return (
     <div className={styles.body}>
