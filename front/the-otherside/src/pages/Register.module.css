@@ -40,10 +40,16 @@
   margin-top: 20px;
 }
 .register__input {
+  all: unset;
   width: 60%;
-  padding-bottom: 5px;
+  font-family: "Bree Serif", serif;
+  border-bottom: 2px solid rgb(146, 146, 146);
+  padding: 5px;
+  color: white;
+  transition: 0.25s;
 }
 .register__button {
+  margin-top: 10px;
   font-size: 20px;
 }
 

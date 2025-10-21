@@ -88,10 +88,6 @@ input {
   transition: 0.25s;
 }
 
-input:hover {
-  border: 2px solid white;
-}
-
 .body {
   display: flex;
   flex-direction: row;
