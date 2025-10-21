@@ -33,7 +33,11 @@ function Login() {
       } else if (respuesta.data.msg === "ERROR") {
         alert("Error en el servidor"); // Error en el servidor
         e.target.reset();
+      } else if(respuesta.data.msg === "CREDENCIALES MALAS"){
+        alert("Por favor llena todos los campos");
       }
+
+
     } catch (error) {
       console.log(error);
       alert("Error en la peticion");
@@ -45,6 +49,7 @@ function Login() {
       return false;
     } else return true;
   }
+
   return (
     <div className={styles.body}>
       <div className={styles.login}>

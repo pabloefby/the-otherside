@@ -46,6 +46,8 @@ function Register() {
         e.target.reset();
       }else if(respuesta.data.msg==="Ya existe"){
         alert("El nombre de usuario ya existe, favor de usar otro");
+      }else if(respuesta.data.msg==="CREDENCIALES MALAS"){
+        alert("Sus credenciales son incorrectas, intentalo nuevamente"); //No deberia haber problema con esto, pero se pone por si acaso
       }
     } catch (error) {
       console.log(error);
