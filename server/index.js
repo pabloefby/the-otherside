@@ -28,6 +28,9 @@ if (dbConn) {
     const regesEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const regexPassword = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 
+    if(!usuario.trim() || !email.trim() || !password.trim()){
+      errors=true; 
+    }
     if (!regexUser.test(usuario)) {
       errors = true;
     }
@@ -90,7 +93,6 @@ app.post("/login-point",
     const {name, passW} = req.body;
 
     if(validateCredentialsLogin(name, passW)){
-
             resp.json({
         msg:"CREDENCIALES MALAS"
       });

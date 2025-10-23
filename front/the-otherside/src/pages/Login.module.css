@@ -38,6 +38,15 @@
 .login__label {
   margin-top: 20px;
 }
+.login__label__nombre {
+  margin-top: 5px;
+}
+.login__alert{
+    margin-top: 5px;
+   min-height: 1.5em;
+  color: rgb(117, 37, 37); 
+  width: 60%;
+}
 .login__input {
   all: unset;
   width: 60%;
