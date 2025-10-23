@@ -1,15 +1,13 @@
 import styles from "./Home.module.css";
 import { Navbar } from "../components/Navbar";
 import { PostPreview } from "../components/PostPreview";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import skullIcon from "../assets/skullIcon.png";
 
 function Home() {
   const user = localStorage.getItem("user");
 
-  const skull = (
-    <img src={skullIcon} alt="skullIcon" className="skullStyle" />
-  );
+  const skull = <img src={skullIcon} alt="skullIcon" className="skullStyle" />;
 
   if (!user) return <Navigate to="/" replace />;
 
@@ -41,14 +39,16 @@ function Home() {
         </div>
         <div className="container">
           <div className="topSection">
-          <label className="subtitle">Publicaciones mas recientes</label>
-          <button> <i class="fa-solid fa-plus"></i> Crear publicacion</button>
+            <label className="subtitle">Publicaciones mas recientes</label>
+            <Link to="/NewPost">
+              {" "}
+              <i class="fa-solid fa-plus"></i> Crear publicacion
+            </Link>
           </div>
           <div className="content">
             <PostPreview></PostPreview>
             <PostPreview></PostPreview>
             <PostPreview></PostPreview>
-
           </div>
         </div>
       </div>

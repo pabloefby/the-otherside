@@ -1,6 +1,5 @@
 import styles from "./Profile.module.css";
 import { Navbar } from "../components/Navbar";
-import { PostPreview } from "../components/PostPreview";
 import { Navigate } from "react-router-dom";
 import skullIcon from "../assets/skullIcon.png";
 
@@ -10,7 +9,7 @@ function Profile() {
   return (
     <div className={styles.body}>
       <Navbar />
-      
+      <h1>hola prueba</h1>
     </div>
   );
 }
