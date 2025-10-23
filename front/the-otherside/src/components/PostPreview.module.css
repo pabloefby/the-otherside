@@ -1,0 +1,86 @@
+.postPreview{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(15, 15, 15);
+    padding: 15px;
+    border-radius: 15px;
+    margin: 10px 0px;
+}
+
+.postPreview__header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+}
+
+.postPreview__header label{
+    color: rgb(192, 192, 192);
+    font-size: 16px;
+}
+
+.postPreview__username{
+    margin: 0 10px;
+}
+
+.postPreview__date{
+    margin: 0 10px;
+}
+
+.postPreview__image{
+    width: 40px;
+    height: automatic;
+    border-radius: 50%;
+}
+
+.postPreview__category{
+    margin-left: auto;
+    background-color: rgb(58, 3, 3);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.postPreview__title{
+    font-size: 20px;
+    color:white;
+    margin:10px 0px;
+}
+
+.postPreview__tag{
+    background-color: wheat;
+    color:rgb(29, 29, 29);
+    border-radius: 15px;
+    padding: 0px 10px;
+}
+
+.postPreview__text{
+    font-family: "Bree Serif", serif;
+  font-size: 15px;
+  color: rgb(255, 255, 255);
+  margin: 10px 0px;
+}
+
+.postPreview__actions{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.postPreview__read{
+    all:unset;
+    font-family: "Bree Serif", serif;
+  font-size: 20px;
+  color: rgb(143, 40, 40);
+}
+
+.postPreview__read:hover{
+    all:unset;
+    font-family: "Bree Serif", serif;
+  font-size: 20px;
+  color: rgb(143, 40, 40);
+  cursor: pointer;
+}
+
+
+
