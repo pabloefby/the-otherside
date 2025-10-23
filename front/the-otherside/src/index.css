@@ -134,3 +134,18 @@ Link {
   text-decoration: none;
   all: unset;
 }
+
+select {
+  all: unset;
+  font-family: "Bree Serif", serif;
+  border: 2px solid rgb(53, 53, 53);
+  background-color: rgb(14, 14, 14);
+  padding: 4px 10px;
+  border-radius: 8px;
+  padding-bottom: 5px;
+  color: rgb(167, 60, 60);
+  transition: 0.25s;
+}
+select:hover {
+  border-color: rgb(172, 52, 52);
+}

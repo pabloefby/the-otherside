@@ -1,1 +1,38 @@
-.newPost{ }
+.body {
+  background-color: rgb(32, 32, 32);
+  width: 100%;
+}
+
+.newPost {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10%;
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+}
+.newPost__media {
+  position: relative;
+  display: inline-block;
+}
+
+.newPost__labelMedia {
+  display: inline-flex; /* Para alinear icono y texto */
+  align-items: center;
+}
+.newPost__inputMedia {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  font-size: 0;
+  cursor: pointer;
+}
