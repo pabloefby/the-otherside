@@ -26,7 +26,7 @@ export function Navbar() {
           />
         </Link>
         <div className={styles.navbar__info}>
-          <Link to="" className={styles.navbar__user}>
+          <Link to="Profile" className={styles.navbar__user}>
             {user}
           </Link>
           <Link to="/" className={styles.navbar__logOut}>
