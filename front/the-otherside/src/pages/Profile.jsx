@@ -35,8 +35,6 @@ function Profile() {
                 <button className={styles.profile__edit_Button}>Editar</button>
                 <button className={styles.profile__delete_Button}>Eliminar</button>
             </div>
-            <PostPreview></PostPreview>
-            <PostPreview></PostPreview>
         </div>
       </div>
     </div>
