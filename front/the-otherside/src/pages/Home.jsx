@@ -1,7 +1,7 @@
 import styles from "./Home.module.css";
 import { Navbar } from "../components/Navbar";
 import { PostPreview } from "../components/PostPreview";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import skullIcon from "../assets/skullIcon.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -29,9 +29,7 @@ function Home() {
     }
   }
 
-  const skull = (
-    <img src={skullIcon} alt="skullIcon" className="skullStyle" />
-  );
+  const skull = <img src={skullIcon} alt="skullIcon" className="skullStyle" />;
 
   useEffect(()=>{getPublis();}, []); 
 
@@ -68,7 +66,10 @@ function Home() {
         <div className="container">
           <div className="topSection">
           <label className="subtitle">Publicaciones mas recientes</label>
-          <button> <i className="fa-solid fa-plus"></i> Crear publicacion</button>
+          <Link to="/NewPost">
+              {" "}
+              <i class="fa-solid fa-plus"></i> Crear publicacion
+            </Link>
           </div>
           <div className="content">
             {publis.map((publi, key)=>{
@@ -76,8 +77,7 @@ function Home() {
                 <PostPreview key={publi.Publicacion_id} publiData={publi}></PostPreview>
               ); 
             })}
-          
-
+      
           </div>
         </div>
       </div>

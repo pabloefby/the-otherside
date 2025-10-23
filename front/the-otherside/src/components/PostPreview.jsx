@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styles from "./PostPreview.module.css";
 import defaultProfile from "../assets/defaultProfile.png";
 import skullIcon from "../assets/skullIcon.png";
