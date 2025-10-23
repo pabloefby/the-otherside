@@ -88,6 +88,27 @@ app.post("/register-point",
   }
  );
 
+ app.get("/publis-point", 
+  (req, resp)=>{
+dbConn.query("SELECT * FROM VW_Publicacion", 
+  (err, result)=>{
+    if(err){
+      resp.json({
+        msg:"Error BD"
+      }); 
+      console.log(err); 
+    }else if(result.length>0){
+      resp.json(result); 
+      console.log(result); 
+    }else{
+      resp.json({
+        msg:"Vacio"
+      }); 
+    }
+  }
+)}
+ ); 
+
 app.post("/login-point",
   (req, resp)=>{
     const {name, passW} = req.body;

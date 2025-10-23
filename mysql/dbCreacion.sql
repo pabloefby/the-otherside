@@ -12,8 +12,6 @@ EstadoUsu tinyint default 0 comment '0= Activo, 1=BajaLogica',
 Constraint CK_EstadoUsu CHECK (EstadoUsu IN(0,1))
 ); 
 
-SELECT * FROM Usuario;
-TRUNCATE TABLE Usuario;
 
 CREATE TABLE IF NOT EXISTS Estado(
 Estado_id int auto_increment PRIMARY KEY, 
@@ -32,13 +30,12 @@ Categoria_id tinyint auto_increment PRIMARY KEY,
 NombreC varchar(255) 
 );
 
-	
 CREATE TABLE IF NOT EXISTS Publicacion(
 Publicacion_id int unsigned auto_increment PRIMARY KEY, 
 Autor varchar(100) NULL, 
 Titulo varchar(255) NOT NULL, 
 TextoPubli text NOT NULL, 
-Imagen varchar(255), 
+Imagen mediumblob, 
 ImageExt varchar(6) comment 'Extension de la imagen', 
 Municipio int, 
 Categoria tinyint NOT NULL, 
@@ -70,6 +67,7 @@ AutorCalif varchar(100) NOT NULL,
 PubliCalif int unsigned NOT NULL, 	
 FechaCalif timestamp default current_timestamp NOT NULL , 
 constraint CK_Calif CHECK (Calif IN(1,2,3,4,5)), 
+constraint CK_UserxCalif UNIQUE (AutorCalif, PubliCalif) , 
 constraint FK_AutorCalif FOREIGN KEY (AutorCalif) references Usuario(NombreUsu) on delete cascade, 
 constraint FK_PubliCalif FOREIGN KEY (PubliCalif) references Publicacion(Publicacion_id) on delete cascade
 ); 

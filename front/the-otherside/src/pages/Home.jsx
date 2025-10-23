@@ -3,15 +3,41 @@ import { Navbar } from "../components/Navbar";
 import { PostPreview } from "../components/PostPreview";
 import { Navigate } from "react-router-dom";
 import skullIcon from "../assets/skullIcon.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Home() {
   const user = localStorage.getItem("user");
+  const [publis, setPublis]=useState([]); 
+  const [alertText, setAlertText] = useState(""); 
+
+  const getPublis= async()=>{
+    try{
+      const resp = await axios.get("http://localhost:3001/publis-point"); 
+      if(resp.data.msg==="Error BD"){
+        alert("Error con la BD"); 
+      }else if(resp.data.msg==="Vacio"){
+        setAlertText("Aun no hay publicaciones")
+        setPublis([]); 
+      }else{
+        setPublis(resp.data); 
+        console.log(resp.data); 
+      }
+    }catch(error){
+      console.log(error); 
+      alert("Error en la peticion al obtener publicaciones"); 
+    }
+  }
 
   const skull = (
     <img src={skullIcon} alt="skullIcon" className="skullStyle" />
   );
 
+  useEffect(()=>{getPublis();}, []); 
+
   if (!user) return <Navigate to="/" replace />;
+
+
 
   return (
     <div className={styles.body}>
@@ -42,12 +68,15 @@ function Home() {
         <div className="container">
           <div className="topSection">
           <label className="subtitle">Publicaciones mas recientes</label>
-          <button> <i class="fa-solid fa-plus"></i> Crear publicacion</button>
+          <button> <i className="fa-solid fa-plus"></i> Crear publicacion</button>
           </div>
           <div className="content">
-            <PostPreview></PostPreview>
-            <PostPreview></PostPreview>
-            <PostPreview></PostPreview>
+            {publis.map((publi, key)=>{
+              return(
+                <PostPreview key={publi.Publicacion_id} publiData={publi}></PostPreview>
+              ); 
+            })}
+          
 
           </div>
         </div>

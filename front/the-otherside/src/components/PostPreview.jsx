@@ -4,36 +4,49 @@ import defaultProfile from "../assets/defaultProfile.png";
 import skullIcon from "../assets/skullIcon.png";
 
 
-export function PostPreview() {
+export function PostPreview({publiData}) {
 
   const skull = (
     <img src={skullIcon} alt="skullIconAlt" className="skullStyle" />
   );
+
+const calif = Math.round(publiData.Calificacion); 
+const previewText = publiData.TextoPubli.length>360
+? publiData.TextoPubli.substring(0,360) + "..."
+: publiData.TextoPubli; 
+
+
+const fecha = publiData.FechaEdicion
+  ? new Date(publiData.FechaEdicion)
+  : new Date(publiData.FechaCreacion);
+
+  const fechaLocal = publiData.FechaEdicion
+   ? `editado en ${fecha.toLocaleString()}`
+   : `creado en ${fecha.toLocaleString()}`; 
+
   
   return (
-    <div className={styles.postPreview}>
+    <div className={styles.postPreview} id={publiData.Publicacion_id}>
       <div className={styles.postPreview__header}>
       <img
             src={defaultProfile}
             alt="profileImage"
             className={styles.postPreview__image}
           />
-        <label className={styles.postPreview__username}>Nombre de usuario</label>
-        <label className={styles.postPreview__date}>dd-mm-yy:mm:ss</label>
-        <label className={styles.postPreview__category}>Categoria</label>
+        <label className={styles.postPreview__username}>{publiData.Autor}</label>
+        <label className={styles.postPreview__date}>{fechaLocal}</label>
+        <label className={styles.postPreview__category}>{publiData.Categoria}</label>
       </div>
       <div className={styles.postPreview__body}>
-        <h2 className={styles.postPreview__title}>Titulo de la publicacion</h2>
-        <label className={styles.postPreview__tag}>Etiqueta</label>
-        <p className={styles.postPreview__text}>Lorem ipsum dolor sit amet consectetur adipiscing elit parturient nam fusce metus ullamcorper dignissim sollicitudin, posuere magna turpis nisi a sed torquent orci rhoncus dapibus porttitor gravida. Cum dis cubilia sed a natoque eleifend montes facilisi himenaeos, vivamus ac sociosqu arcu metus porta phasellus sem gravida, interdum dui class aenean neque ornare accumsan egestas. </p>
+        <h2 className={styles.postPreview__title}>{publiData.Titulo}</h2>
+        <label className={styles.postPreview__tag}>{publiData.Etiqueta}</label>
+        <p className={styles.postPreview__text}>{previewText}</p>
       </div>
       <div className={styles.postPreview__actions}>
-        <div div className={styles.postPreview__score}>
-                {skull}
-                {skull}
-                {skull}
-                {skull}
-                {skull}
+        <div className={styles.postPreview__score}>
+             {Array.from({length: calif}).map((_,i)=>(
+              <span key={i}>{skull}</span>
+             ))}
         </div>
         <button className={styles.postPreview__read}>Leer mas...</button>
       </div>
