@@ -88,7 +88,7 @@ function Home() {
         <div className="container">
           <div className="topSection">
             <label className="subtitle">Publicaciones mas recientes</label>
-            <Link to="/NewPost">
+            <Link to="/NewPost" className="btn">
               {" "}
               <i class="fa-solid fa-plus"></i> Crear publicacion
             </Link>

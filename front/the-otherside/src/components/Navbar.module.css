@@ -16,6 +16,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: default;
 }
 
 .navbar__info {
@@ -30,7 +31,7 @@
   align-items: center;
 }
 
-.navbar__link{
+.navbar__link {
   text-decoration: none;
 }
 

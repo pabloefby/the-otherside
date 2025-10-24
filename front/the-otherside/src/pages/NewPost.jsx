@@ -53,53 +53,62 @@ function NewPost() {
 
   const getMunicipios = async () => {
     try {
+      const resp = await axios.get(
+        `http://localhost:3001/get-municipios/${estado}`
+      );
 
-      const resp = await axios.get(`http://localhost:3001/get-municipios/${estado}`);
-
-      if(resp.data.msg==="ErrorDB"){
+      if (resp.data.msg === "ErrorDB") {
         alert("Error al obtener los municipios");
-      }else{
+      } else {
         setListMunicipios(resp.data);
       }
-
     } catch (error) {
       alert("error en la peticion");
     }
   };
 
- function validateCampos(categoria, etiqueta, titulo, contenido, municipio) {
-  const errores = [];
+  function validateCampos(categoria, etiqueta, titulo, contenido, municipio) {
+    const errores = [];
 
-  if (categoria === null || categoria === undefined || categoria === "") {
-    errores.push("La categoría es obligatoria.");
+    if (categoria === null || categoria === undefined || categoria === "") {
+      errores.push("La categoría es obligatoria.");
+    }
+
+    if (etiqueta === null || etiqueta === undefined || etiqueta.trim() === "") {
+      errores.push("La etiqueta no puede estar vacía.");
+    }
+
+    if (titulo === null || titulo === undefined || titulo.trim() === "") {
+      errores.push("El título es obligatorio.");
+    }
+
+    if (
+      contenido === null ||
+      contenido === undefined ||
+      contenido.trim() === ""
+    ) {
+      errores.push("El contenido no puede estar vacío.");
+    }
+
+    if (municipio === null || municipio === undefined || municipio === "") {
+      errores.push("El municipio es obligatorio.");
+    }
+
+    return errores;
   }
-
-  if (etiqueta === null || etiqueta === undefined || etiqueta.trim() === "") {
-    errores.push("La etiqueta no puede estar vacía.");
-  }
-
-  if (titulo === null || titulo === undefined || titulo.trim() === "") {
-    errores.push("El título es obligatorio.");
-  }
-
-  if (contenido === null || contenido === undefined || contenido.trim() === "") {
-    errores.push("El contenido no puede estar vacío.");
-  }
-
-  if (municipio === null || municipio === undefined || municipio === "") {
-    errores.push("El municipio es obligatorio.");
-  }
-
-  return errores;
-}
-
 
   const sendPublicacion = async (e) => {
     e.preventDefault();
 
-    const errores = validateCampos(categoria, etiqueta, titulo, contenido, municipio);
+    const errores = validateCampos(
+      categoria,
+      etiqueta,
+      titulo,
+      contenido,
+      municipio
+    );
 
-    if(errores.length>0){
+    if (errores.length > 0) {
       alert(errores);
       return;
     }
@@ -114,18 +123,20 @@ function NewPost() {
     frmPubli.append("imagen", imagen);
 
     try {
-      const respuesta = await axios.post("http://localhost:3001/new-post", frmPubli, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const respuesta = await axios.post(
+        "http://localhost:3001/new-post",
+        frmPubli,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
-      if(respuesta.data.msg==="ErrorDB"){
+      if (respuesta.data.msg === "ErrorDB") {
         alert("Error al publicar con la db");
-      } else if(respuesta.data.msg==="Publicado"){
+      } else if (respuesta.data.msg === "Publicado") {
         alert("Publicado");
         navigate("/Home");
-
       }
-
     } catch (error) {}
   };
 
@@ -175,20 +186,17 @@ function NewPost() {
               placeholder="Etiqueta"
               onChange={(e) => SetEtiqueta(e.target.value)}
             ></input>
-            <label className={styles.newPost__label}>
-              Título de la publicación
-            </label>
             <input
               className={styles.newPost__title}
               onChange={(e) => SetTitulo(e.target.value)}
+              placeholder="Título de la publicación"
             ></input>
-            <label className={styles.newPost__label}>
-              Contenido de la publicación
-            </label>
-            <input
+
+            <textarea
               className={styles.newPost__content}
               onChange={(e) => SetContenido(e.target.value)}
-            ></input>
+              placeholder="Escribe tu publicación"
+            ></textarea>
             <div className={styles.newPost__media}>
               <label className={styles.newPost__labelMedia}>
                 <i class="fa-solid fa-image"></i> Agregar imagen
@@ -201,42 +209,44 @@ function NewPost() {
                 onChange={(e) => SetImagen(e.target.files[0])}
               ></input>
             </div>
-            <label className={styles.newPost__label}>Estado</label>
-            <select
-              className={styles.newPost__selectEstado}
-              onChange={(e) => {
-                SetEstado(e.target.value);
-              }}
-            >
-              <option value="">Selecciona un Estado</option>
-              {listEstados.map((estado) => {
-                return (
-                  <option key={estado.Estado_id} value={estado.Estado_id}>
-                    {estado.NombreE}
+            <div className={styles.newPost__location}>
+              <label className={styles.newPost__label}>Estado</label>
+              <select
+                className={styles.newPost__estado}
+                onChange={(e) => {
+                  SetEstado(e.target.value);
+                }}
+              >
+                <option value="">Selecciona un Estado</option>
+                {listEstados.map((estado) => {
+                  return (
+                    <option key={estado.Estado_id} value={estado.Estado_id}>
+                      {estado.NombreE}
+                    </option>
+                  );
+                })}
+                ;
+              </select>
+              <label className={styles.newPost__label}>Ciudad</label>
+              <select
+                className={styles.newPost__ciudad}
+                onChange={(e) => {
+                  SetMunicipio(e.target.value);
+                }}
+              >
+                <option value="">Selecciona un municipio</option>
+                {listMunicipios.map((municipio) => (
+                  <option
+                    key={municipio.Municipio_id}
+                    value={municipio.Municipio_id}
+                  >
+                    {municipio.NombreM}
                   </option>
-                );
-              })}
-              ;
-            </select>
-            <label className={styles.newPost__label}>Ciudad</label>
-            <select
-              className={styles.newPost__selectEstado}
-              onChange={(e) => {
-                SetMunicipio(e.target.value);
-              }}
-            >
-              <option value="">Selecciona un Estado</option>
-              {listMunicipios.map((municipio) => (
-                <option
-                  key={municipio.Municipio_id}
-                  value={municipio.Municipio_id}
-                >
-                  {municipio.NombreM}
-                </option>
-              ))}
-            </select>
-
+                ))}
+              </select>
+            </div>
             <button type="submit" className={styles.newPost__button}>
+              <i class="fa-solid fa-plus"></i>
               Publicar
             </button>
           </form>

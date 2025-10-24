@@ -11,7 +11,7 @@
   margin: 0 10%;
 }
 
-.home__ranking-group{
+.home__ranking-group {
   display: flex;
   gap: 5px;
 }

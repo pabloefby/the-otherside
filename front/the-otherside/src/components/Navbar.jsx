@@ -20,7 +20,7 @@ export function Navbar() {
         <button className={styles.navbar__button}>FANTASMA</button>
       </div>
       <div className={styles.navbar__session}>
-        <Link to="" className={styles["navar__image-link"]}>
+        <Link to="/Profile" className={styles["navar__image-link"]}>
           <img
             src={defaultProfile}
             alt="profile"
