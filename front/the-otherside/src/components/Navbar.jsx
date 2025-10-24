@@ -6,7 +6,7 @@ export function Navbar() {
   const user = localStorage.getItem("user");
   return (
     <nav className={styles.navbar}>
-      <Link to="/Home">
+      <Link to="/Home" className={styles.navbar__link}>
         <h1 className={styles.navbar__logo}>The Otherside</h1>
       </Link>
 

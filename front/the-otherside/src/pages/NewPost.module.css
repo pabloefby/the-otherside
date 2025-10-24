@@ -1,6 +1,7 @@
 .body {
   background-color: rgb(32, 32, 32);
   width: 100%;
+  min-height: 100vh;
 }
 
 .newPost {
@@ -8,7 +9,19 @@
   flex-direction: column;
   align-items: center;
   margin: 0 10%;
+
 }
+
+.newPost__header{
+  display: flex;
+  gap:30px;
+}
+
+.category_selector{
+  display: flex;
+  gap: 10px;
+}
+
 
 .register__form {
   display: flex;

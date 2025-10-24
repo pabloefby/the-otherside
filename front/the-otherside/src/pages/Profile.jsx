@@ -25,16 +25,22 @@ function Profile() {
               <p className={styles.profile_p}> ******** </p>
             </div>
           </div>
-        </div>
-            <div className={styles.profile__buttons}>
-            <button className={styles.profile__MisPubli_Button}>Mis Publicaciones</button>
-            <button className={styles.profile__PubliCalif_Button}>Puiblicaciones que has calificado</button>
-            </div>
-        <div className="container">
+          <div className="container">
             <div className={styles.profile_btnEditYElim}>
-                <button className={styles.profile__edit_Button}>Editar</button>
-                <button className={styles.profile__delete_Button}>Eliminar</button>
+              <button className={styles.profile__edit_Button}>Editar</button>
+              <button className={styles.profile__delete_Button}>
+                Eliminar
+              </button>
             </div>
+          </div>
+        </div>
+        <div className={styles.profile__buttons}>
+          <button className={styles.profile__MisPubli_Button}>
+            Mis Publicaciones
+          </button>
+          <button className={styles.profile__PubliCalif_Button}>
+            Puiblicaciones que has calificado
+          </button>
         </div>
       </div>
     </div>

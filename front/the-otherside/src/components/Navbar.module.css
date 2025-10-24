@@ -30,10 +30,15 @@
   align-items: center;
 }
 
+.navbar__link{
+  text-decoration: none;
+}
+
 .navbar__logo {
   padding: 0;
   margin: 0;
   font-size: 35px;
+  text-decoration: none;
 }
 
 .navbar__image {

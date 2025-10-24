@@ -6,7 +6,7 @@ import axios from "axios";
 function Login() {
   const [nomusuario, setNomusuario] = useState("");
   const [contra, setContra] = useState("");
-  const [alertText, setAlertText]= useState(""); 
+  const [alertText, setAlertText] = useState("");
 
   const redirect = useNavigate();
   localStorage.removeItem("user");
@@ -33,11 +33,9 @@ function Login() {
       } else if (respuesta.data.msg === "ERROR") {
         setAlertText("Error en el servidor"); // Error en el servidor
         e.target.reset();
-      } else if(respuesta.data.msg === "CREDENCIALES MALAS"){
+      } else if (respuesta.data.msg === "CREDENCIALES MALAS") {
         setAlertText("Por favor llena todos los campos");
       }
-
-
     } catch (error) {
       console.log(error);
       setAlertText("Error en la peticion");
@@ -62,8 +60,10 @@ function Login() {
         <div className={styles.login__data}>
           <form className={styles.login__form} onSubmit={loginUser}>
             <h2 className={styles.login__subtitle}>INICIAR SESION</h2>
-            <h3 className={styles.login__alert} > {alertText} </h3>
-            <label className={styles.login__label__nombre}>Nombre de usuario</label>
+            <h3 className={styles.login__alert}> {alertText} </h3>
+            <label className={styles.login__label__nombre}>
+              Nombre de usuario
+            </label>
             <input
               className={styles.login__input}
               type="text"
@@ -80,14 +80,13 @@ function Login() {
                 setContra(e.target.value);
               }}
             />
-            
+
             <Link to="Register" className={styles.login__register}>
               ¿Aun no formas parte del culto? inicia el ritual
             </Link>
             <button type="submit" className={styles.login__button}>
               Entrar
             </button>
-    
           </form>
         </div>
       </div>

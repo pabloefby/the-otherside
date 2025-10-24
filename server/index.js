@@ -15,137 +15,228 @@ app.listen(3001, () => {
 
 const dbConn = mysql2.createConnection(dbSettings);
 
-if (dbConn) {
-  console.log("DB conectada");
-} else {
-  console.log("Error de conexion");
+const filter = (req, file, cb) => {
+  const formats = ["image/png", "image/jpg", "image/jpeg"];
+  if (formats.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    return cb(new Error("Archivo no aceptado"));
+  }
+};
+
+const espacio = multer.memoryStorage();
+const archivo = multer({
+  storage: espacio,
+  fileFilter: filter,
+});
+
+function validteCredentialsRegister(usuario, email, password) {
+  var errors = false;
+
+  const regexUser = /^[a-z0-9]{8,}$/;
+  const regesEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const regexPassword = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+  if (!usuario.trim() || !email.trim() || !password.trim()) {
+    errors = true;
+  }
+  if (!regexUser.test(usuario)) {
+    errors = true;
+  }
+  if (!regesEmail.test(email)) {
+    errors = true;
+  }
+  if (!regexPassword.test(password)) {
+    errors = true;
+  }
+
+  return errors;
 }
 
-  function validteCredentialsRegister(usuario, email, password){
-    var errors = false;
+function validateCredentialsLogin(usuario, password) {
+  if (usuario.length === 0 || password.length === 0) {
+    return true;
+  } else return false;
+}
 
-    const regexUser = /^[a-z0-9]{8,}$/;
-    const regesEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const regexPassword = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+app.post("/register-point", (req, resp) => {
+  const { name, email, passW } = req.body;
 
-    if(!usuario.trim() || !email.trim() || !password.trim()){
-      errors=true; 
-    }
-    if (!regexUser.test(usuario)) {
-      errors = true;
-    }
-    if (!regesEmail.test(email)) {
-      errors = true;
-    }
-    if (!regexPassword.test(password)) {
-      errors = true;
-    }
+  if (validteCredentialsRegister(name, email, passW)) {
+    resp.json({
+      msg: "CREDENCIALES MALAS",
+    });
 
-    return errors;
+    return;
   }
 
-    function validateCredentialsLogin(usuario, password) {
-    if (usuario.length === 0 || password.length === 0) {
-      return true;
-    } else return false;
-  }
-
-app.post("/register-point",
-  (req, resp)=>{
-    const {name, email, passW}=req.body; 
-
-    if(validteCredentialsRegister(name,email,passW)){
-
-      resp.json({
-        msg:"CREDENCIALES MALAS"
-      });
-
-      return;
-    }
-
-    dbConn.query("CALL sp_Usuario(1,?,?,?)", 
-      [name, email, passW], 
-      (err, result)=> {
-        if(err){
-          if(err.code==="ER_DUP_ENTRY"){
-             resp.json({
-            msg:"Ya existe"
-          })
-          }else{
-             resp.json({
-            msg:"Chale no se pudo"
-          })
-          }
-          console.log(err); 
-        }else {
+  dbConn.query(
+    "CALL sp_Usuario(1,?,?,?)",
+    [name, email, passW],
+    (err, result) => {
+      if (err) {
+        if (err.code === "ER_DUP_ENTRY") {
           resp.json({
-            msg:"Bienvenido al culto"
-          })
+            msg: "Ya existe",
+          });
+        } else {
+          resp.json({
+            msg: "Chale no se pudo",
+          });
+        }
+        console.log(err);
+      } else {
+        resp.json({
+          msg: "Bienvenido al culto",
+        });
+        console.log(result);
+      }
+    }
+  );
+});
+
+app.get("/get-top-municipios",(req, resp) =>{
+  dbConn.query("SELECT * FROM Vista_TopMunicipiosPublicaciones", (err, result) => {
+    if (err) {
+      resp.json({ msg: "Error DB" });
+    } else if (result.length > 0) {
+      resp.json(result);
+    } else {
+      resp.json([]);
+    }
+  });
+
+});
+
+app.get("/publis-point", (req, resp) => {
+  dbConn.query("SELECT * FROM VW_Publicacion", (err, result) => {
+    if (err) {
+      resp.json({
+        msg: "Error BD",
+      });
+      console.log(err);
+    } else if (result.length > 0) {
+      resp.json(result);
+      //console.log(result);
+    } else {
+      resp.json({
+        msg: "Vacio",
+      });
+    }
+  });
+});
+
+app.post("/login-point", (req, resp) => {
+  const { name, passW } = req.body;
+
+  if (validateCredentialsLogin(name, passW)) {
+    resp.json({
+      msg: "CREDENCIALES MALAS",
+    });
+
+    return;
+  }
+
+  dbConn.query(
+    "CALL sp_Usuario(2,?,?,?)",
+    [name, null, passW],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "ERROR",
+        });
+        console.log(err);
+      } else {
+        if (result[0].length > 0) {
+          resp.json({
+            msg: "LOGIN EXITOSO",
+            user: result[0][0].NombreUsu,
+          });
+          console.log(result);
+        } else {
+          resp.json({
+            msg: "NO ENCONTRADO",
+          });
           console.log(result);
         }
       }
-    );
-  }
- );
-
- app.get("/publis-point", 
-  (req, resp)=>{
-dbConn.query("SELECT * FROM VW_Publicacion", 
-  (err, result)=>{
-    if(err){
-      resp.json({
-        msg:"Error BD"
-      }); 
-      console.log(err); 
-    }else if(result.length>0){
-      resp.json(result); 
-      console.log(result); 
-    }else{
-      resp.json({
-        msg:"Vacio"
-      }); 
     }
-  }
-)}
- ); 
+  );
+});
 
-app.post("/login-point",
-  (req, resp)=>{
-    const {name, passW} = req.body;
-
-    if(validateCredentialsLogin(name, passW)){
-            resp.json({
-        msg:"CREDENCIALES MALAS"
-      });
-
-      return;
-
+app.get("/get-categories", (req, resp) => {
+  dbConn.query("SELECT * FROM Categoria", (err, result) => {
+    if (err) {
+      resp.json({ msg: "Error DB" });
+    } else if (result.length > 0) {
+      resp.json(result);
+      //console.log(result);
+    } else {
+      resp.json([]);
     }
+  });
+});
 
-    dbConn.query("CALL sp_Usuario(2,?,?,?)",
-      [name, null, passW],
-      (err, result)=>{  
-        if(err){
-          resp.json({
-            msg:"ERROR"
-          })
-          console.log(err);
-        }else{
+app.get("/get-estados", (req, resp) => {
+  dbConn.query("SELECT * FROM Estado", (err, result) => {
+    if (err) {
+      resp.json({ msg: "Error DB" });
+    } else if (result.length > 0) {
+      resp.json(result);
+      //console.log(result);
+    } else {
+      resp.json([]); // por si la tabla está vacía
+    }
+  });
+});
 
-          if(result[0].length>0){
-            resp.json({ 
-              msg:"LOGIN EXITOSO",
-              user: result[0][0].NombreUsu
-            })
-            console.log(result);
-          }else{
-            resp.json({
-              msg:"NO ENCONTRADO"
-            })
-            console.log(result);
-          }
-        }
-      } 
-    );
-  }
-);
+app.get("/get-municipios/:idEstado", (req, resp) => {
+  const estado = req.params.idEstado;
+
+  dbConn.query(
+    "SELECT Municipio_id, NombreM FROM Municipio WHERE Estado = ?",
+    [estado],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg:"ErrorDB"
+        })
+      } else {
+        resp.json(result);
+      }
+    }
+  );
+});
+
+app.post("/new-post", archivo.single("imagen"), (req, resp) => {
+
+  const {categoria, etiqueta, titulo, contenido, municipio, autor} = req.body;
+  const imagen = req.file ? req.file.buffer.toString("base64") : null;
+
+  console.log({
+    categoria,
+    etiqueta,
+    titulo,
+    contenido,
+    municipio,
+    autor,
+    tieneImagen: !!imagen
+  });
+
+  dbConn.query("INSERT INTO Publicacion (Autor, Titulo, TextoPubli, Imagen, Municipio, Categoria, Etiqueta) VALUES (?,?,?,?,?,?,?)",
+    [autor,titulo,contenido,imagen, municipio,categoria,etiqueta],
+    (err, result)=>{
+      if (err) {
+        resp.json({
+          msg: "ErrorDB",
+        });
+        console.log(err);
+      } else {
+        resp.json({
+          msg: "Publicado",
+        });
+      }
+    }
+  )
+
+});
