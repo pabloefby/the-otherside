@@ -1,4 +1,4 @@
-USE BooDB; 
+USE BooDB;
 DELIMITER $$
 CREATE PROCEDURE sp_Usuario (
 op int,
@@ -24,5 +24,11 @@ SET passW= TRIM(ppassW);
 		SELECT NombreUsu FROM Usuario 
 		WHERE NombreUsu = nombreU AND Pssword = passW AND EstadoUsu = 0;
 	END IF;
+
+	#Obtener Usuario 
+	IF op = 3 THEN 
+		SELECT * FROM Usuario 
+		WHERE NombreUsu = nombreU AND EstadoUsu=0; 
+	END IF; 
 END $$
 DELIMITER ;

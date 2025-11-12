@@ -108,8 +108,44 @@ app.get("/get-top-municipios",(req, resp) =>{
 
 });
 
+app.get("/userPublis-point/:user", (req, resp) => {
+  
+  dbConn.query("SELECT * FROM VW_Publicacion WHERE Autor=? ORDER BY FechaCreacion DESC",
+    req.params.user, (err, result) => {
+    if (err) {
+      resp.json({
+        msg: "Error BD",
+      });
+      console.log(err);
+    } else if (result.length > 0) {
+      resp.json(result);
+      //console.log(result);
+    } else {
+      resp.json({
+        msg: "Vacio",
+      });
+    }
+  });
+});
+
+app.get("/userData-point/:user", (req, resp) => {
+  const name = req.params.user; 
+  dbConn.query("CALL sp_Usuario(3,?,?,?)",
+    [name, null, null], (err, result) => {
+    if (err) {
+      resp.json({
+        msg: "Error BD",
+      });
+      console.log(err);
+    } else{
+      resp.json(result[0][0]);
+      console.log(result);
+    } 
+  });
+});
+
 app.get("/publis-point", (req, resp) => {
-  dbConn.query("SELECT * FROM VW_Publicacion", (err, result) => {
+  dbConn.query("SELECT * FROM VW_Publicacion ORDER BY FechaCreacion DESC", (err, result) => {
     if (err) {
       resp.json({
         msg: "Error BD",
