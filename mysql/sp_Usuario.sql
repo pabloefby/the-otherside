@@ -44,3 +44,4 @@ SET passW= TRIM(ppassW);
     END IF; 
 END $$
 DELIMITER ;
+DROP PROCEDURE sp_Usuario;

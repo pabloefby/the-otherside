@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import NewPost from "./pages/NewPost";
+import Post from "./pages/Post";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
         </Route>
         <Route path="/Profile" element={<Profile />}></Route>
         <Route path="/NewPost" element={<NewPost />}></Route>
+        <Route path="/Post" element={<Post />}></Route>
       </Routes>
     </BrowserRouter>
   );
