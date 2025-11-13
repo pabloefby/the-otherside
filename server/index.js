@@ -143,6 +143,27 @@ app.get("/userData-point/:user", (req, resp) => {
   });
 });
 
+
+
+app.post("/userData-point", (req, resp) => {
+    const { name, email, passW } = req.body;
+
+  dbConn.query("CALL sp_Usuario(4,?,?,?)",
+    [name, email, passW], (err, result) => {
+    if (err) {
+      resp.json({
+        msg: "Error BD",
+      });
+      console.log(err);
+    } else{
+      console.log(result);
+       resp.json({
+        msg: "Usuario Editado",
+      });
+    } 
+  });
+});
+
 app.get("/publis-point", (req, resp) => {
   dbConn.query("SELECT * FROM VW_Publicacion ORDER BY FechaCreacion DESC", (err, result) => {
     if (err) {

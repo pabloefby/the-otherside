@@ -9,12 +9,48 @@ import defaultProfile from "../assets/defaultProfile.png";
 
 function Profile() {
   const user = localStorage.getItem("user");
+  const [editPerfil, setEditPerfil] = useState(false); 
   const [publis, setPublis] = useState([]);
   const [userData, setuserData] = useState({
     Correo: "",
     Pssword: "",
     Foto: "",
   });
+
+/*
+  const eliminarPerfil = async()=> {
+    try{
+
+
+    }catch{
+
+    }
+  }*/
+
+  const editarPerfil = async()=> {
+    try{
+      if(!editPerfil){
+        setEditPerfil(true); 
+      }else{
+        setEditPerfil(false); 
+                const resp = await axios.post("http://localhost:3001/userData-point", 
+          {
+            name: user,
+          email: userData.Correo,
+          passW: userData.Pssword,
+          }); 
+
+          if(resp.data.msg==="Error BD"){
+            alert("Error en la BD al editar"); 
+          }else if(resp.data.msg==="Usuario Editado"){
+            alert("Usuario editado exitosamente"); 
+          }
+      }
+
+    }catch{
+
+    }
+  }
 
   const getUserData = async () => {
     try {
@@ -86,21 +122,29 @@ function Profile() {
                   </label>
                   <input
                     type="text"
+                    id="correoPerfil"
                     name="Correo"
+                    disabled={!editPerfil}
                     value={userData.Correo}
                     onChange={handleChange}
                   ></input>
                   <label className={styles.profile_label}>Contraseña</label>
                   <input
                     type="text"
+                    id="passwordPerfil"
                     name="Pssword"
+                    disabled={!editPerfil}
                     value={userData.Pssword}
                     onChange={handleChange}
                   ></input>
                 </div>
                             <div className="container">
               <div className={styles.profile_btnEditYElim}>
-                <button className={styles.profile__edit_Button}>Editar</button>
+                <button 
+                type="button"
+                className={styles.profile__edit_Button}
+                onClick={editarPerfil}
+                >Editar</button>
                 <button className={styles.profile__delete_Button}>
                   Eliminar
                 </button>

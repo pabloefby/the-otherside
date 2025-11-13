@@ -30,5 +30,17 @@ SET passW= TRIM(ppassW);
 		SELECT * FROM Usuario 
 		WHERE NombreUsu = nombreU AND EstadoUsu=0; 
 	END IF; 
+
+	IF op=4 THEN 
+		UPDATE Usuario 
+        SET Correo=correo, Pssword= passW
+        WHERE NombreUsu = nombreU; 
+	END IF; 
+		
+    IF op=5 THEN 
+		UPDATE Usuario 
+        SET EstadoUsu=1 
+        WHERE NombreUsu = nombreU; 
+    END IF; 
 END $$
 DELIMITER ;
