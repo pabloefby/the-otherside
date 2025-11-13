@@ -127,6 +127,23 @@ app.get("/userPublis-point/:user", (req, resp) => {
   });
 });
 
+app.delete("/userData-point/:user", (req, resp)=> {
+  const name = req.params.user; 
+  dbConn.query("CALL sp_Usuario(5,?,?,?)", [name, null,null], (err,result)=>{
+    if (err) {
+      resp.json({
+        msg: "Error BD"
+      });
+      console.log(err);
+    } else{
+      resp.json({
+        msg:"Eliminado" 
+      })
+      console.log(result);
+    }
+  })
+}); 
+
 app.get("/userData-point/:user", (req, resp) => {
   const name = req.params.user; 
   dbConn.query("CALL sp_Usuario(3,?,?,?)",
@@ -145,7 +162,7 @@ app.get("/userData-point/:user", (req, resp) => {
 
 
 
-app.post("/userData-point", (req, resp) => {
+app.patch("/userData-point", (req, resp) => {
     const { name, email, passW } = req.body;
 
   dbConn.query("CALL sp_Usuario(4,?,?,?)",
