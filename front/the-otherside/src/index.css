@@ -123,6 +123,17 @@ textarea:focus {
   align-items: center;
 }
 
+.containerRow{
+  width: 100%;
+  background-color: rgb(24, 24, 24);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .subtitle {
   color: white;
   font-size: 25px;

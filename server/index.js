@@ -109,7 +109,6 @@ app.get("/get-top-municipios",(req, resp) =>{
 });
 
 app.get("/userPublis-point/:user", (req, resp) => {
-  
   dbConn.query("SELECT * FROM VW_Publicacion WHERE Autor=? ORDER BY FechaCreacion DESC",
     req.params.user, (err, result) => {
     if (err) {
@@ -138,8 +137,8 @@ app.get("/userData-point/:user", (req, resp) => {
       });
       console.log(err);
     } else{
-      resp.json(result[0][0]);
-      console.log(result);
+      resp.json(result);
+      //console.log(result);
     } 
   });
 });

@@ -4,6 +4,25 @@
   min-height: 100vh;
 }
 
+.profile__photo_div{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+.profile__photo_div img{
+    width: 30%;
+    border-radius: 100%;
+}
+
+.profile__form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .profile {
   display: flex;
   flex-direction: column;
@@ -30,6 +49,11 @@
     margin-bottom: 15px;
 }
 
+.profile__details{
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
 
 .profile__buttons{
     display: flex;
@@ -53,4 +77,8 @@
     margin: 0 15px;
     font-family: "Bree Serif", serif;
     background-color: #B84848;
+}
+
+.profile__userPubli{
+    width: 100%;
 }
