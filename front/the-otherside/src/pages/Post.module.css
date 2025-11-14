@@ -3,3 +3,143 @@
   width: 100%;
   min-height: 100vh;
 }
+
+.post {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10%;
+}
+
+.post__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+}
+
+.post__username {
+  margin: 0 10px;
+}
+
+.post__date {
+  margin: 0 10px;
+}
+
+.post__userimage {
+  width: 50px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.post__category {
+  margin-left: auto;
+  color: rgb(255, 240, 220);
+  background-color: rgb(58, 3, 3);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.post__title {
+  font-family: "Bree Serif", serif;
+  font-size: 30px;
+  color: white;
+  margin: 10px 0px;
+}
+
+.post__tag {
+  background-color: wheat;
+  color: rgb(29, 29, 29);
+  border-radius: 15px;
+  padding: 0px 10px;
+  font-size: 18px;
+}
+
+.post__text {
+  font-family: "Bree Serif", serif;
+  font-size: 18px;
+  color: rgb(255, 255, 255);
+  margin: 10px 0px;
+}
+
+.post__image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0px;
+}
+
+.post__score {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+.newComment {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.newComment__form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+.newComment__text {
+  height: 9vh;
+}
+
+.newComment__button {
+  align-self: last baseline;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  background-color: rgb(15, 15, 15);
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.comment__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+
+.comment__header label {
+  color: rgb(192, 192, 192);
+  font-size: 16px;
+  margin: 0 5px;
+}
+
+.comment__userimage {
+  width: 40px;
+  height: automatic;
+  border-radius: 50%;
+}
+.comment__body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comment__text {
+  font-family: "Bree Serif", serif;
+  font-size: 15px;
+  color: rgb(220, 220, 220);
+}
