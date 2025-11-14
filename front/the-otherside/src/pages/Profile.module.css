@@ -17,6 +17,24 @@
     border-radius: 100%;
 }
 
+.profile__changePhotoBtn {
+  margin-top: 10px;
+  margin-left: 15px;
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: #ffffff22;
+  border: 1px solid white;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.profile__changePhotoBtn:hover {
+  background-color: #ffffff44;
+  transform: scale(1.05);
+}
+
 .profile__form{
     display: flex;
     flex-direction: column;
@@ -40,6 +58,21 @@
     color: #979797;
     font-size: 17px;
     
+}
+
+.profile__input{
+    background-color: rgb(29, 29, 29);
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+    color: #FFFFFF;
+    font-family: "Bree Serif", serif;
+    font-size: 16px;
+}
+
+.editable {
+  border: 2px solid white !important;
 }
 
 .profile_p{
@@ -84,20 +117,42 @@
 }
 
 .modal {
-  position: fixed;
+  position: fixed;        /* Que se quede encima de todo */
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.6); /* Oscurecer fondo */
+  display: flex;
   justify-content: center;
   align-items: center;
+
+  z-index: 9999;          /* MUY IMPORTANTE */
 }
 
 .modal-content {
-  background: white;
+  background: rgba(0, 0, 0, 0.6);
   padding: 20px;
-  width: 300px;
   border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
   text-align: center;
 }
+
+.modal-content h2 {
+  color: rgb(218, 218, 218);
+  margin-bottom: 20px;
+}
+
+.btnModal {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+
+
