@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import NewPost from "./pages/NewPost";
 import Post from "./pages/Post";
+import UpdatePost from "./pages/UpdatePost";
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
         <Route path="/Profile" element={<Profile />}></Route>
         <Route path="/NewPost" element={<NewPost />}></Route>
         <Route path="/Post" element={<Post />}></Route>
+        <Route path="/UpdatePost" element={<UpdatePost />}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -57,7 +57,7 @@ function Home() {
     <div className={styles.body}>
       <Navbar />
       <div className={styles.home}>
-        <h2 className={styles.home__welcome}>Bienvenido al culto {user}</h2>
+        <h2 className={styles.home__welcome}>Bienvenido al culto {user} ...</h2>
         <div className={styles.home__collage}></div>
         <div className="container">
           <label className="subtitle">

@@ -32,9 +32,18 @@
 }
 
 .home__city {
+  font-family: "Special Elite", serif;
   color: rgb(172, 52, 52);
   font-size: 22px;
 }
 
+.home__counter {
+  font-family: "Special Elite", serif;
+}
+
 .home__subtitle {
+}
+
+.home__welcome {
+  font-family: "Special Elite", serif;
 }
