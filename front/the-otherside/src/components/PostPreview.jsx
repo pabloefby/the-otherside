@@ -1,8 +1,12 @@
 import styles from "./PostPreview.module.css";
 import defaultProfile from "../assets/defaultProfile.png";
 import skullIcon from "../assets/skullIcon.png";
+import { useNavigate } from "react-router-dom";
 
 export function PostPreview({ publiData }) {
+
+  const navigate = useNavigate();
+
   const skull = (
     <img src={skullIcon} alt="skullIconAlt" className="skullStyle" />
   );
@@ -48,7 +52,9 @@ export function PostPreview({ publiData }) {
             <span key={i}>{skull}</span>
           ))}
         </div>
-        <button className={styles.postPreview__read}>Leer mas...</button>
+        <button onClick={(e) =>{
+          navigate(`/Post/${publiData.Publicacion_id}`);
+        }} className={styles.postPreview__read}>Leer mas...</button>
       </div>
     </div>
   );

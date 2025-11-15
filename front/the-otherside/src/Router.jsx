@@ -18,7 +18,7 @@ function Router() {
         </Route>
         <Route path="/Profile" element={<Profile />}></Route>
         <Route path="/NewPost" element={<NewPost />}></Route>
-        <Route path="/Post" element={<Post />}></Route>
+        <Route path="/Post/:id" element={<Post/>}></Route>
         <Route path="/UpdatePost" element={<UpdatePost />}></Route>
       </Routes>
     </BrowserRouter>

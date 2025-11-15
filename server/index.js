@@ -95,108 +95,124 @@ app.post("/register-point", (req, resp) => {
   );
 });
 
-app.get("/get-top-municipios",(req, resp) =>{
-  dbConn.query("SELECT * FROM Vista_TopMunicipiosPublicaciones", (err, result) => {
-    if (err) {
-      resp.json({ msg: "Error DB" });
-    } else if (result.length > 0) {
-      resp.json(result);
-    } else {
-      resp.json([]);
+app.get("/get-top-municipios", (req, resp) => {
+  dbConn.query(
+    "SELECT * FROM Vista_TopMunicipiosPublicaciones",
+    (err, result) => {
+      if (err) {
+        resp.json({ msg: "Error DB" });
+      } else if (result.length > 0) {
+        resp.json(result);
+      } else {
+        resp.json([]);
+      }
     }
-  });
-
+  );
 });
 
 app.get("/userPublis-point/:user", (req, resp) => {
-  dbConn.query("SELECT * FROM VW_Publicacion WHERE Autor=? ORDER BY FechaCreacion DESC",
-    req.params.user, (err, result) => {
-    if (err) {
-      resp.json({
-        msg: "Error BD",
-      });
-      console.log(err);
-    } else if (result.length > 0) {
-      resp.json(result);
-      //console.log(result);
-    } else {
-      resp.json({
-        msg: "Vacio",
-      });
+  dbConn.query(
+    "SELECT * FROM VW_Publicacion WHERE Autor=? ORDER BY FechaCreacion DESC",
+    req.params.user,
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "Error BD",
+        });
+        console.log(err);
+      } else if (result.length > 0) {
+        resp.json(result);
+        //console.log(result);
+      } else {
+        resp.json({
+          msg: "Vacio",
+        });
+      }
     }
-  });
+  );
 });
 
-app.delete("/userData-point/:user", (req, resp)=> {
-  const name = req.params.user; 
-  dbConn.query("CALL sp_Usuario(5,?,?,?)", [name, null,null], (err,result)=>{
-    if (err) {
-      resp.json({
-        msg: "Error BD"
-      });
-      console.log(err);
-    } else{
-      resp.json({
-        msg:"Eliminado" 
-      })
-      console.log(result);
+app.delete("/userData-point/:user", (req, resp) => {
+  const name = req.params.user;
+  dbConn.query(
+    "CALL sp_Usuario(5,?,?,?)",
+    [name, null, null],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "Error BD",
+        });
+        console.log(err);
+      } else {
+        resp.json({
+          msg: "Eliminado",
+        });
+        console.log(result);
+      }
     }
-  })
-}); 
+  );
+});
 
 app.get("/userData-point/:user", (req, resp) => {
-  const name = req.params.user; 
-  dbConn.query("CALL sp_Usuario(3,?,?,?)",
-    [name, null, null], (err, result) => {
-    if (err) {
-      resp.json({
-        msg: "Error BD",
-      });
-      console.log(err);
-    } else{
-      resp.json(result);
-      //console.log(result);
-    } 
-  });
+  const name = req.params.user;
+  dbConn.query(
+    "CALL sp_Usuario(3,?,?,?)",
+    [name, null, null],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "Error BD",
+        });
+        console.log(err);
+      } else {
+        resp.json(result);
+        //console.log(result);
+      }
+    }
+  );
 });
 
-
-
 app.patch("/userData-point", (req, resp) => {
-    const { name, email, passW } = req.body;
+  const { name, email, passW } = req.body;
 
-  dbConn.query("CALL sp_Usuario(4,?,?,?)",
-    [name, email, passW], (err, result) => {
-    if (err) {
-      resp.json({
-        msg: "Error BD",
-      });
-      console.log(err);
-    } else{
-      console.log(result);
-       resp.json({
-        msg: "Usuario Editado",
-      });
-    } 
-  });
+  dbConn.query(
+    "CALL sp_Usuario(4,?,?,?)",
+    [name, email, passW],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "Error BD",
+        });
+        console.log(err);
+      } else {
+        console.log(result);
+        resp.json({
+          msg: "Usuario Editado",
+        });
+      }
+    }
+  );
 });
 
 app.get("/publis-point", (req, resp) => {
-  dbConn.query("SELECT * FROM VW_Publicacion ORDER BY FechaCreacion DESC", (err, result) => {
-    if (err) {
-      resp.json({
-        msg: "Error BD",
-      });
-      console.log(err);
-    } else if (result.length > 0) {
-      resp.json(result);
-      //console.log(result);
-    } else {
-      resp.json({
-        msg: "Vacio",
-      });
+  dbConn.query(
+    "SELECT * FROM VW_Publicacion ORDER BY FechaCreacion DESC",
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "Error BD",
+        });
+        console.log(err);
+      } else if (result.length > 0) {
+        resp.json(result);
+        //console.log(result);
+      } else {
+        resp.json({
+          msg: "Vacio",
+        });
+      }
     }
-  });
+  );
 });
 
 app.post("/login-point", (req, resp) => {
@@ -272,8 +288,8 @@ app.get("/get-municipios/:idEstado", (req, resp) => {
     (err, result) => {
       if (err) {
         resp.json({
-          msg:"ErrorDB"
-        })
+          msg: "ErrorDB",
+        });
       } else {
         resp.json(result);
       }
@@ -282,8 +298,7 @@ app.get("/get-municipios/:idEstado", (req, resp) => {
 });
 
 app.post("/new-post", archivo.single("imagen"), (req, resp) => {
-
-  const {categoria, etiqueta, titulo, contenido, municipio, autor} = req.body;
+  const { categoria, etiqueta, titulo, contenido, municipio, autor } = req.body;
   const imagen = req.file ? req.file.buffer.toString("base64") : null;
 
   console.log({
@@ -293,12 +308,13 @@ app.post("/new-post", archivo.single("imagen"), (req, resp) => {
     contenido,
     municipio,
     autor,
-    tieneImagen: !!imagen
+    tieneImagen: !!imagen,
   });
 
-  dbConn.query("INSERT INTO Publicacion (Autor, Titulo, TextoPubli, Imagen, Municipio, Categoria, Etiqueta) VALUES (?,?,?,?,?,?,?)",
-    [autor,titulo,contenido,imagen, municipio,categoria,etiqueta],
-    (err, result)=>{
+  dbConn.query(
+    "INSERT INTO Publicacion (Autor, Titulo, TextoPubli, Imagen, Municipio, Categoria, Etiqueta) VALUES (?,?,?,?,?,?,?)",
+    [autor, titulo, contenido, imagen, municipio, categoria, etiqueta],
+    (err, result) => {
       if (err) {
         resp.json({
           msg: "ErrorDB",
@@ -310,6 +326,25 @@ app.post("/new-post", archivo.single("imagen"), (req, resp) => {
         });
       }
     }
-  )
+  );
+});
 
+app.get("/get-one-post/:idPubli", (req, resp) => {
+  const idPubli = req.params.idPubli;
+  //console.log(idPubli);
+
+  dbConn.query(
+    "SELECT * FROM VW_Publicacion WHERE Publicacion_id = (?)",
+    [idPubli],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "ERROR",
+        });
+        console.log(err);
+      }else{
+        resp.json(result);
+      }
+    }
+  );
 });

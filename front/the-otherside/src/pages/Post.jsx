@@ -5,11 +5,38 @@ import pastel from "../assets/pastel.jpg";
 import skullIcon from "../assets/skullIcon.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Post() {
   const skull = <img src={skullIcon} alt="skullIcon" className="skullStyle" />;
   const user = localStorage.getItem("user");
+
+  const { id } = useParams();
+
+  const [thisPost, setThisPost] = useState(null);
+
+
+  const getPost = async () => {
+    try {
+      const respuesta = await axios.get(
+        `http://localhost:3001/get-one-post/${id}`
+      );
+
+      if (respuesta.data.msg === "ERROR") {
+        alert("ERROR EN LA BD");
+      } else {
+        setThisPost(respuesta.data[0]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
+
   return (
     <div className={styles.body}>
       <Navbar />
@@ -21,27 +48,17 @@ function Post() {
               alt="profileImage"
               className={styles.post__userimage}
             />
-            <label className={styles.post__username}>Username</label>
+            <label className={styles.post__username}>{thisPost?.Autor}</label>
             <label className={styles.post__date}>
-              creado en 21/12/2012 12:12
+              creado en {thisPost?.FechaCreacion}
             </label>
-            <label className={styles.post__category}>Categoria</label>
+            <label className={styles.post__category}>{thisPost?.Categoria}</label>
           </div>
           <div className={styles.post__body}>
-            <h2 className={styles.post__title}>Titulo de la publicacion</h2>
-            <label className={styles.post__tag}>Etiqueta</label>
+            <h2 className={styles.post__title}>{thisPost?.Titulo}</h2>
+            <label className={styles.post__tag}>{thisPost?.Etiqueta}</label>
             <p className={styles.post__text}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-              pharetra elementum tellus, nec fringilla sapien accumsan vel. Nam
-              vitae sem at eros pharetra sollicitudin. Vestibulum in pulvinar
-              enim, sed euismod massa. Vivamus non nulla elementum, consectetur
-              sapien quis, viverra nisl. Vestibulum urna ipsum, consequat at
-              quam in, scelerisque finibus ipsum. Curabitur ut ornare lacus. Sed
-              non libero nec tellus tristique placerat. Aliquam ultrices enim
-              quis lacus varius semper. Etiam ut varius nisl. Aenean posuere, mi
-              a lacinia imperdiet, ligula dolor tincidunt nunc, ullamcorper
-              euismod ante lacus sed sapien. Nunc et sapien eu orci pulvinar
-              feugiat. Donec tincidunt at nibh at interdum. Sed nec est libero.
+{thisPost?.TextoPubli}
             </p>
             <div className={styles.post__image}>
               <img
