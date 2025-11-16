@@ -6,6 +6,7 @@ import skullIcon from "../assets/skullIcon.png";
 import { use, useEffect, useState } from "react";
 import axios from "axios";
 import defaultProfile from "../assets/defaultProfile.png";
+import profileFrame from "../assets/profileFrame.png";
 
 function Profile() {
   const redirect = useNavigate();
@@ -157,6 +158,11 @@ function Profile() {
         <div className={styles.profile}>
           <div className="containerRow">
             <div className={styles.profile__photo_div}>
+              <img
+                src={profileFrame}
+                alt="framePerfil"
+                className={styles.profile__frame}
+              />
               <img src={fotoPerfil} alt="" className={styles.profile__photo} />
 
               {editPerfil && (

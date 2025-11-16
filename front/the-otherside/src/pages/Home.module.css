@@ -10,6 +10,9 @@
   align-items: center;
   margin: 0 10%;
 }
+.home__image {
+  width: 700px;
+}
 
 .home__ranking-group {
   display: flex;

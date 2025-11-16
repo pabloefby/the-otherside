@@ -3,6 +3,7 @@ import { Navbar } from "../components/Navbar";
 import { PostPreview } from "../components/PostPreview";
 import { Link, Navigate } from "react-router-dom";
 import skullIcon from "../assets/skullIcon.png";
+import collagePrincipal from "../assets/collagePrincipal.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -57,8 +58,14 @@ function Home() {
     <div className={styles.body}>
       <Navbar />
       <div className={styles.home}>
+        <div className={styles.home__collage}>
+          <img
+            src={collagePrincipal}
+            alt="collagePrincipal"
+            className={styles.home__image}
+          />
+        </div>
         <h2 className={styles.home__welcome}>Bienvenido al culto {user} ...</h2>
-        <div className={styles.home__collage}></div>
         <div className="container">
           <label className="subtitle">
             Municipios con mayor prescencia paranormal
