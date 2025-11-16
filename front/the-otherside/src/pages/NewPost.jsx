@@ -3,6 +3,7 @@ import { Navbar } from "../components/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import calacasViendoArriba from "../assets/calacasViendoArriba.png";
 
 function NewPost() {
   const [categoria, SetCategoria] = useState("");
@@ -155,6 +156,11 @@ function NewPost() {
     <div className={styles.body}>
       <Navbar></Navbar>
       <div className={styles.newPost}>
+        <img
+          src={calacasViendoArriba}
+          alt="calacasVuiendoArriba"
+          className={styles.calacasViendoArriba}
+        />
         <div className="container">
           <form className={styles.register__form} onSubmit={sendPublicacion}>
             <div className={styles.newPost__header}>
