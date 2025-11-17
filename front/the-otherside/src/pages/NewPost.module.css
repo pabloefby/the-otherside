@@ -9,14 +9,14 @@
   flex-direction: column;
   align-items: center;
   margin: 0 10%;
-  position: relative;
 }
 .calacasViendoArriba {
-  position: absolute;
-  top: 50%;
-  right: 92%;
-  width: 400px;
+  pointer-events: none;
+  position: fixed;
+  width: 360px;
   height: auto;
+  top: 55%;
+  right: 82%;
 }
 
 .newPost__header {

@@ -3,7 +3,8 @@ import { Navbar } from "../components/Navbar";
 import { PostPreview } from "../components/PostPreview";
 import { Link, Navigate } from "react-router-dom";
 import skullIcon from "../assets/skullIcon.png";
-import collagePrincipal from "../assets/collagePrincipal.png";
+import collageHomeLargo from "../assets/collageHomeLargo.png";
+import rosa from "../assets/rosa.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -58,10 +59,11 @@ function Home() {
     <div className={styles.body}>
       <Navbar />
       <div className={styles.home}>
+        <img src={rosa} alt="rosa" className={styles.rosa} />
         <div className={styles.home__collage}>
           <img
-            src={collagePrincipal}
-            alt="collagePrincipal"
+            src={collageHomeLargo}
+            alt="collageHomeLargo"
             className={styles.home__image}
           />
         </div>

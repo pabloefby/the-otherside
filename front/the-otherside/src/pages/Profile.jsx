@@ -7,6 +7,11 @@ import { use, useEffect, useState } from "react";
 import axios from "axios";
 import defaultProfile from "../assets/defaultProfile.png";
 import profileFrame from "../assets/profileFrame.png";
+import bbCienpies from "../assets/bbCienpies.png";
+import spaceKitty from "../assets/spaceKitty.png";
+import ojoTeleCalaca from "../assets/ojoTeleCalaca.png";
+import ojoDerretido from "../assets/ojoDerretido.png";
+import tentaculo from "../assets/tentaculo.png";
 
 function Profile() {
   const redirect = useNavigate();
@@ -163,6 +168,28 @@ function Profile() {
                 alt="framePerfil"
                 className={styles.profile__frame}
               />
+              <img
+                src={bbCienpies}
+                alt="bbCienpies"
+                className={styles.bbCienpies}
+              />
+              <img
+                src={spaceKitty}
+                alt="spaceKitty"
+                className={styles.spaceKitty}
+              />
+              <img
+                src={ojoTeleCalaca}
+                alt="ojoTeleCalaca"
+                className={styles.ojoTeleCalaca}
+              />
+
+              <img
+                src={tentaculo}
+                alt="tentaculo"
+                className={styles.tentaculo}
+              />
+
               <img src={fotoPerfil} alt="" className={styles.profile__photo} />
 
               {editPerfil && (

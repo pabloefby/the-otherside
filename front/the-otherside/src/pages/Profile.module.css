@@ -58,6 +58,7 @@
   flex-direction: column;
   align-items: center;
   margin: 0 10%;
+  padding-top: 8%;
 }
 
 .profile_labelNombre {
@@ -162,4 +163,50 @@
   border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
+}
+
+.bbCienpies {
+  pointer-events: none;
+  position: fixed;
+  width: 300px;
+  height: auto;
+  top: 15%;
+  left: -3%;
+  rotate: 30deg;
+}
+
+.spaceKitty {
+  pointer-events: none;
+  position: fixed;
+  width: 250px;
+  height: auto;
+  top: 15%;
+  right: -2%;
+}
+
+.ojoTeleCalaca {
+  pointer-events: none;
+  position: fixed;
+  width: 250px;
+  height: auto;
+  bottom: -5%;
+  right: -2%;
+}
+
+.ojoDerretido {
+  pointer-events: none;
+  position: fixed;
+  width: 250px;
+  height: auto;
+  bottom: -5%;
+  right: -2%;
+}
+
+.tentaculo {
+  pointer-events: none;
+  position: fixed;
+  width: 250px;
+  height: auto;
+  bottom: 0%;
+  left: -3%;
 }

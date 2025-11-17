@@ -9,9 +9,20 @@
   flex-direction: column;
   align-items: center;
   margin: 0 10%;
+  padding-top: 8%;
 }
+
+.rosa {
+  position: fixed;
+  top: 50%;
+  left: 87%;
+  width: 250px;
+  height: auto;
+  z-index: 1000;
+}
+
 .home__image {
-  width: 700px;
+  width: 1200px;
 }
 
 .home__ranking-group {
