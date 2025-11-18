@@ -1,5 +1,10 @@
 .body {
   background-color: rgb(32, 32, 32);
+  background-image: url("../assets/pageBackground.png");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   width: 100%;
   min-height: 100vh;
 }
@@ -9,6 +14,7 @@
   flex-direction: column;
   align-items: center;
   margin: 0 10%;
+  padding-top: 8%;
 }
 .calacasViendoArriba {
   pointer-events: none;

@@ -1,0 +1,31 @@
+.body {
+  background-color: rgb(32, 32, 32);
+  background-image: url("../assets/conspiracionBackground.png");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.conspiracion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10%;
+  padding-top: 8%;
+}
+
+.conspiracion__image {
+  width: 1400px;
+}
+
+.altavoz {
+  pointer-events: none;
+  position: fixed;
+  width: 250px;
+  height: auto;
+  top: 20%;
+  left: -2%;
+}

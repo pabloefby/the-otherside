@@ -1,5 +1,5 @@
 .register {
-  background-image: url("../assets/background-login.png");
+  background-image: url("../assets/loginBackground.png");
   display: grid;
   background-size: cover;
   background-position: center;
@@ -14,6 +14,7 @@
 .register__presentation {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
 }
 
@@ -26,10 +27,10 @@
 
 .register__form {
   display: flex;
-  width: 80%;
+  width: 90%;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: start;
   position: relative;
 }
 
@@ -38,15 +39,15 @@
   margin: 2px;
 }
 
-.register__alert{
+.register__alert {
   margin-top: 5px;
-   min-height: 1.5em;
-  color: rgb(172, 52, 52); 
+  min-height: 1.5em;
+  color: rgb(172, 52, 52);
   width: 60%;
 }
 
-.register__label__nombre{
-    margin-top: 5px;
+.register__label__nombre {
+  margin-top: 5px;
 }
 .register__label {
   margin-top: 20px;
@@ -67,7 +68,7 @@
 
 .register__button--back {
   position: absolute;
-  left: -70px;
+  right: 720px;
   top: 0;
   font-size: 20px;
   border-radius: 50%;
@@ -79,7 +80,16 @@
 .register__password-group {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
+}
+
+.register__input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
 }
 
 .register__input-group button {
@@ -96,12 +106,8 @@
   color: rgb(146, 146, 146);
 }
 
-.register__input-group {
-  position: relative;
-}
-
 .register__pasword-show,
 .register__pasword-hide {
   position: absolute;
-  right: 40%;
+  right: 20%;
 }
