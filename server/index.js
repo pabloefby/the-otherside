@@ -183,9 +183,9 @@ app.patch("/userData-point", (req, resp) => {
         resp.json({
           msg: "Error BD",
         });
-        console.log(err);
+        //console.log(err);
       } else {
-        console.log(result);
+        //console.log(result);
         resp.json({
           msg: "Usuario Editado",
         });
@@ -240,13 +240,14 @@ app.post("/login-point", (req, resp) => {
           resp.json({
             msg: "LOGIN EXITOSO",
             user: result[0][0].NombreUsu,
+            foto: result[0][0].Foto
           });
-          console.log(result);
+          //console.log(result[0][0]);
         } else {
           resp.json({
             msg: "NO ENCONTRADO",
           });
-          console.log(result);
+          //console.log(result);
         }
       }
     }
@@ -301,16 +302,6 @@ app.post("/new-post", archivo.single("imagen"), (req, resp) => {
   const { categoria, etiqueta, titulo, contenido, municipio, autor } = req.body;
   const imagen = req.file ? req.file.buffer.toString("base64") : null;
 
-  console.log({
-    categoria,
-    etiqueta,
-    titulo,
-    contenido,
-    municipio,
-    autor,
-    tieneImagen: !!imagen,
-  });
-
   dbConn.query(
     "INSERT INTO Publicacion (Autor, Titulo, TextoPubli, Imagen, Municipio, Categoria, Etiqueta) VALUES (?,?,?,?,?,?,?)",
     [autor, titulo, contenido, imagen, municipio, categoria, etiqueta],
@@ -347,4 +338,27 @@ app.get("/get-one-post/:idPubli", (req, resp) => {
       }
     }
   );
+});
+
+app.patch("/update-fotoPerfil", archivo.single("fotoPerfil"), (req, resp) =>{
+  const {user} = req.body;
+  const fotoPerfil = req.file.buffer.toString("base64");
+
+  dbConn.query("UPDATE Usuario SET Foto = (?) WHERE NombreUsu = (?)",
+    [fotoPerfil,user],
+    (err, result)=>{
+      if(err){
+        resp.json({
+          msg: "ErrorDB",
+        });
+        console.log(err);
+      }else{
+        resp.json({
+          msg: "FotoUpdated",
+        });
+      }
+    }
+  )
+
+
 });

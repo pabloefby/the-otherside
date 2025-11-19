@@ -25,6 +25,10 @@
   width: 100%;
 }
 
+.post__body{
+  width: 100%;
+}
+
 .post__username {
   margin: 0 10px;
 }

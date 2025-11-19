@@ -26,6 +26,7 @@ function Login() {
 
       if (respuesta.data.msg === "LOGIN EXITOSO") {
         localStorage.setItem("user", respuesta.data.user);
+        localStorage.setItem("fotoPerfil", respuesta.data.foto);
         redirect("/Home");
       } else if (respuesta.data.msg === "NO ENCONTRADO") {
         setAlertText("Usuario o contraseña incorrecta"); // No encontrado

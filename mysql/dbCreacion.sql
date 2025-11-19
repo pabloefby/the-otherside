@@ -35,7 +35,7 @@ Publicacion_id int unsigned auto_increment PRIMARY KEY,
 Autor varchar(100) NULL, 
 Titulo varchar(255) NOT NULL, 
 TextoPubli text NOT NULL, 
-Imagen mediumblob, 
+Imagen longtext, 
 ImageExt varchar(6) comment 'Extension de la imagen', 
 Municipio int, 
 Categoria tinyint NOT NULL, 
@@ -49,6 +49,12 @@ constraint FK_Autor FOREIGN KEY (Autor) References Usuario(NombreUsu) on delete 
 constraint FK_Municipio FOREIGN KEY (Municipio) References Municipio(Municipio_id) on delete set null , 
 constraint KF_Categoria FOREIGN KEY (Categoria) references Categoria(Categoria_id) on delete cascade
 ); 
+
+/*
+ALTER TABLE Publicacion
+MODIFY Imagen mediumtext;
+*/
+
 
 CREATE TABLE IF NOT EXISTS Comentario(
 Comentario_id int unsigned auto_increment PRIMARY KEY, 

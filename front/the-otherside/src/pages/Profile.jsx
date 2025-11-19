@@ -3,7 +3,7 @@ import { Navbar } from "../components/Navbar";
 import { PostPreview } from "../components/PostPreview";
 import { Navigate, useNavigate } from "react-router-dom";
 import skullIcon from "../assets/skullIcon.png";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import defaultProfile from "../assets/defaultProfile.png";
 import profileFrame from "../assets/profileFrame.png";
@@ -24,6 +24,8 @@ function Profile() {
     Pssword: "",
     Foto: "",
   });
+
+  const [defaultPic, setDefaultPic] = useState(defaultProfile);
 
   const eliminarPerfil = async () => {
     try {
@@ -59,6 +61,19 @@ function Profile() {
           alert("Error en la BD al editar");
         } else if (resp.data.msg === "Usuario Editado") {
           console.log("Usuario editado exitosamente");
+          if (fotoPerfil) {
+            try {
+              await updateFotoPerfil();
+            } catch (photoError) {
+              console.error(
+                "Fallo al actualizar la foto de perfil:",
+                photoError
+              );
+            }
+          }
+          await getUserData();
+          setFotoPerfil(null);
+          setDefaultPic(defaultProfile);
         }
       }
     } catch (error) {
@@ -76,12 +91,60 @@ function Profile() {
         alert("Error con la BD");
       } else {
         setuserData(resp.data[0][0]);
-        console.log(resp.data);
+        //console.log(resp.data);
       }
     } catch (error) {
       console.log(error);
       alert("Error en la peticion al obtener publicaciones del usuario");
     }
+  };
+  const updateFotoPerfil = async () => {
+    const frmData = new FormData();
+    frmData.append("user", user);
+    frmData.append("fotoPerfil", fotoPerfil);
+
+    if (fotoPerfil) {
+        try {
+
+            const base64DataUrl = await readFileAsBase64(fotoPerfil);
+            const base64String = base64DataUrl.split(',')[1]; 
+            localStorage.setItem("fotoPerfil", base64String); 
+        } catch (error) {
+            console.error("Error al convertir a Base64:", error);
+        }
+    }
+
+    try {
+      const resp = await axios.patch(
+        "http://localhost:3001/update-fotoPerfil",
+        frmData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      if (resp.data.msg === "ErrorDB") {
+        alert("Error al actualizar su foto de perfil");
+      } else if (resp.data.msg === "FotoUpdated") {
+        console.log("Foto actualizada");
+        return;
+      }
+    } catch (error) {
+      alert("ERROR con la bd");
+    }
+  };
+
+  const readFileAsBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // reader.result contiene la URL de datos (ej: data:image/png;base64,...)
+        resolve(reader.result);
+      };
+      reader.onerror = (error) => reject(error);
+      // Lee el archivo como URL de datos (que incluye la codificación Base64)
+      reader.readAsDataURL(file);
+    });
   };
 
   const getPublis = async () => {
@@ -103,17 +166,19 @@ function Profile() {
     }
   };
 
-  const [fotoPerfil, setFotoPerfil] = useState(defaultProfile);
+  const [fotoPerfil, setFotoPerfil] = useState(null);
 
   const handleFotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      if (fotoPerfil && defaultPic && defaultPic.startsWith("blob:")) {
+        URL.revokeObjectURL(defaultPic);
+      }
+      setFotoPerfil(file);
       const imageURL = URL.createObjectURL(file);
-      setFotoPerfil(imageURL);
+      setDefaultPic(imageURL);
     }
   };
-
-  const skull = <img src={skullIcon} alt="skullIcon" className="skullStyle" />;
 
   const handleChange = (e) => {
     setuserData({
@@ -159,7 +224,6 @@ function Profile() {
             </div>
           </div>
         )}
-
         <div className={styles.profile}>
           <div className="containerRow">
             <div className={styles.profile__photo_div}>
@@ -190,7 +254,17 @@ function Profile() {
                 className={styles.tentaculo}
               />
 
-              <img src={fotoPerfil} alt="" className={styles.profile__photo} />
+              <img
+                src={
+                  editPerfil && fotoPerfil
+                    ? defaultPic
+                    : userData.Foto
+                    ? `data:image/png;base64,${userData.Foto}`
+                    : defaultProfile
+                }
+                alt=""
+                className={styles.profile__photo}
+              />
 
               {editPerfil && (
                 <>
@@ -205,15 +279,16 @@ function Profile() {
                   <button
                     type="button"
                     className={styles.profile__changePhotoBtn}
-                    onClick={() =>
-                      document.getElementById("fileInputFoto").click()
-                    }
+                    onClick={() => {
+                      document.getElementById("fileInputFoto").click();
+                    }}
                   >
                     Cambiar foto
                   </button>
                 </>
               )}
             </div>
+
             <div className={styles.profile__info}>
               <label className="subtitle">Informacion Personal</label>
               <form className={styles.profile__form} action="">
@@ -251,16 +326,16 @@ function Profile() {
                     <button
                       type="button"
                       className={styles.profile__edit_Button}
-                      onClick={editarPerfil}
+                      onClick={() => {
+                        editarPerfil();
+                      }}
                     >
                       {editPerfil ? "Guardar cambios" : "Editar"}
                     </button>
                     <button
                       type="button"
                       className={styles.profile__delete_Button}
-                      onClick={() => {
-                        setModalBorrar(true);
-                      }}
+                      onClick={() => setModalBorrar}
                     >
                       Eliminar
                     </button>
@@ -275,7 +350,7 @@ function Profile() {
               Mis Publicaciones
             </button>
             <button className={styles.profile__PubliCalif_Button}>
-              Puiblicaciones que has calificado
+              Publicaciones que has calificado
             </button>
           </div>
 

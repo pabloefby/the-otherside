@@ -21,7 +21,7 @@ SET passW= TRIM(ppassW);
 
 	#INICIO DE SESION 
 	IF op = 2 THEN
-		SELECT NombreUsu FROM Usuario 
+		SELECT NombreUsu, Foto FROM Usuario 
 		WHERE NombreUsu = nombreU AND Pssword = passW AND EstadoUsu = 0;
 	END IF;
 

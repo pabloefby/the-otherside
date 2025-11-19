@@ -38,7 +38,7 @@ function Home() {
         setPublis([]);
       } else {
         setPublis(resp.data);
-        console.log(resp.data);
+        //console.log(resp.data);
       }
     } catch (error) {
       console.log(error);

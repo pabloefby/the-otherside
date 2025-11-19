@@ -29,7 +29,10 @@ export function PostPreview({ publiData }) {
     <div className={styles.postPreview} id={publiData.Publicacion_id}>
       <div className={styles.postPreview__header}>
         <img
-          src={defaultProfile}
+          src={publiData.Foto 
+            ? `data:image/png;base64,${publiData.Foto }`
+            : defaultProfile
+          }
           alt="profileImage"
           className={styles.postPreview__image}
         />

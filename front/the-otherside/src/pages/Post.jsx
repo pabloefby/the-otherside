@@ -15,7 +15,6 @@ function Post() {
 
   const [thisPost, setThisPost] = useState(null);
 
-
   const getPost = async () => {
     try {
       const respuesta = await axios.get(
@@ -26,6 +25,7 @@ function Post() {
         alert("ERROR EN LA BD");
       } else {
         setThisPost(respuesta.data[0]);
+        console.log(respuesta.data[0]);
       }
     } catch (error) {
       console.error(error);
@@ -36,7 +36,6 @@ function Post() {
     getPost();
   }, []);
 
-
   return (
     <div className={styles.body}>
       <Navbar />
@@ -44,7 +43,11 @@ function Post() {
         <div className="container">
           <div className={styles.post__header}>
             <img
-              src={defaultProfile}
+              src={
+                thisPost?.Foto
+                  ? `data:image/png;base64,${thisPost?.Foto}`
+                  : defaultProfile
+              }
               alt="profileImage"
               className={styles.post__userimage}
             />
@@ -52,21 +55,23 @@ function Post() {
             <label className={styles.post__date}>
               creado en {thisPost?.FechaCreacion}
             </label>
-            <label className={styles.post__category}>{thisPost?.Categoria}</label>
+            <label className={styles.post__category}>
+              {thisPost?.Categoria}
+            </label>
           </div>
           <div className={styles.post__body}>
             <h2 className={styles.post__title}>{thisPost?.Titulo}</h2>
             <label className={styles.post__tag}>{thisPost?.Etiqueta}</label>
-            <p className={styles.post__text}>
-{thisPost?.TextoPubli}
-            </p>
-            <div className={styles.post__image}>
-              <img
-                src={pastel}
-                alt="pastelImage"
-                className={styles.post__postImage}
-              />
-            </div>
+            <p className={styles.post__text}>{thisPost?.TextoPubli}</p>
+            {thisPost?.Imagen && (
+              <div className={styles.post__image}>
+                <img
+                  src={"data:image/png;base64," + thisPost?.Imagen}
+                  alt="pastelImage"
+                  className={styles.post__postImage}
+                />
+              </div>
+            )}
             <div className={styles["post__score"]}>
               <label>Calificación:</label>
               {skull}
