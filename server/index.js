@@ -240,7 +240,7 @@ app.post("/login-point", (req, resp) => {
           resp.json({
             msg: "LOGIN EXITOSO",
             user: result[0][0].NombreUsu,
-            foto: result[0][0].Foto
+            foto: result[0][0].Foto,
           });
           //console.log(result[0][0]);
         } else {
@@ -333,32 +333,31 @@ app.get("/get-one-post/:idPubli", (req, resp) => {
           msg: "ERROR",
         });
         console.log(err);
-      }else{
+      } else {
         resp.json(result);
       }
     }
   );
 });
 
-app.patch("/update-fotoPerfil", archivo.single("fotoPerfil"), (req, resp) =>{
-  const {user} = req.body;
+app.patch("/update-fotoPerfil", archivo.single("fotoPerfil"), (req, resp) => {
+  const { user } = req.body;
   const fotoPerfil = req.file.buffer.toString("base64");
 
-  dbConn.query("UPDATE Usuario SET Foto = (?) WHERE NombreUsu = (?)",
-    [fotoPerfil,user],
-    (err, result)=>{
-      if(err){
+  dbConn.query(
+    "UPDATE Usuario SET Foto = (?) WHERE NombreUsu = (?)",
+    [fotoPerfil, user],
+    (err, result) => {
+      if (err) {
         resp.json({
           msg: "ErrorDB",
         });
         console.log(err);
-      }else{
+      } else {
         resp.json({
           msg: "FotoUpdated",
         });
       }
     }
-  )
-
-
+  );
 });

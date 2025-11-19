@@ -3,7 +3,7 @@ USE BooDB;
 
 CREATE TABLE IF NOT EXISTS Usuario (
 NombreUsu varchar(100) PRIMARY KEY, 
-Foto varchar(255) NULL, 
+Foto mediumtext NULL, 
 Correo varchar(255) NOT NULL UNIQUE, 
 Pssword varchar(255) NOT NULL, 
 FechaReg timestamp default current_timestamp NOT NULL, 
@@ -11,6 +11,11 @@ FechaUpdate timestamp default null on update current_timestamp,
 EstadoUsu tinyint default 0 comment '0= Activo, 1=BajaLogica', 
 Constraint CK_EstadoUsu CHECK (EstadoUsu IN(0,1))
 ); 
+
+/*
+ALTER TABLE usuario
+MODIFY Foto mediumText;
+*/
 
 
 CREATE TABLE IF NOT EXISTS Estado(
@@ -52,7 +57,7 @@ constraint KF_Categoria FOREIGN KEY (Categoria) references Categoria(Categoria_i
 
 /*
 ALTER TABLE Publicacion
-MODIFY Imagen mediumtext;
+MODIFY Imagen longText;
 */
 
 
