@@ -8,6 +8,9 @@ import Post from "./pages/Post";
 import UpdatePost from "./pages/UpdatePost";
 import Alien from "./pages/Alien";
 import Conspiracion from "./pages/Conspiracion";
+import Misterio from "./pages/Misterio";
+import Brujeria from "./pages/Brujeria";
+import Leyendas from "./pages/Leyendas";
 
 function Router() {
   return (
@@ -24,6 +27,9 @@ function Router() {
         <Route path="/UpdatePost" element={<UpdatePost />}></Route>
         <Route path="/Alien" element={<Alien />}></Route>
         <Route path="/Conspiracion" element={<Conspiracion />}></Route>
+        <Route path="/Misterio" element={<Misterio />}></Route>
+        <Route path="/Brujeria" element={<Brujeria />}></Route>
+        <Route path="/Leyendas" element={<Leyendas />}></Route>
       </Routes>
     </BrowserRouter>
   );

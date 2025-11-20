@@ -1,0 +1,50 @@
+.body {
+  background-color: rgb(32, 32, 32);
+  background-image: url("../assets/brujeriaBackground.png");
+  background-attachment: fixed;
+  background-size:cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.alien {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10%;
+  padding-top: 8%;
+}
+
+.brujeria__image {
+  width: 1200px;
+}
+
+.gato {
+  pointer-events: none;
+  position: fixed;
+  width: 500px;
+  height: auto;
+  bottom: 0%;
+  left: -6%;
+}
+
+.rocks {
+  pointer-events: none;
+  position: fixed;
+  width: 500px;
+  height: auto;
+  top: 10%;
+  right: -12%;
+  rotate: -120deg;
+}
+
+.xenomorfo {
+  pointer-events: none;
+  position: fixed;
+  width: 350px;
+  height: auto;
+  top: 15%;
+  left: -8%;
+}
