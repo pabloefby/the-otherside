@@ -35,21 +35,18 @@
 }
 
 .profile__changePhotoBtn {
-  margin-top: 10px;
-  margin-left: 15px;
-  padding: 8px 12px;
-  font-size: 14px;
-  background-color: #ffffff22;
-  border: 1px solid white;
-  border-radius: 8px;
+  position: absolute;
+  padding: 115px 78px;
+  font-size: 16px;
+  background-color: #5c545422;
+  border-radius: 50%;
   color: white;
   cursor: pointer;
   transition: 0.2s;
 }
 
 .profile__changePhotoBtn:hover {
-  background-color: #ffffff44;
-  transform: scale(1.05);
+  background-color: #8d242444;
 }
 
 .profile__form {
@@ -78,7 +75,8 @@
 }
 
 .profile__input {
-  background-color: rgb(29, 29, 29);
+  all: unset;
+  background-color: transparent;
   border: none;
   border-radius: 10px;
   padding: 10px;
@@ -89,7 +87,7 @@
 }
 
 .editable {
-  border: 2px solid white !important;
+  background-color: rgb(41, 41, 41) !important;
 }
 
 .profile_p {
@@ -139,12 +137,12 @@
   width: 100vw;
   height: 100vh;
 
-  background: rgba(0, 0, 0, 0.6); /* Oscurecer fondo */
+  background: rgba(0, 0, 0, 0.8); /* Oscurecer fondo */
   display: flex;
   justify-content: center;
   align-items: center;
 
-  z-index: 9999; /* MUY IMPORTANTE */
+  z-index: 99999; /* MUY IMPORTANTE */
 }
 
 .modal-content {
@@ -163,6 +161,7 @@
 
 .btnModal {
   margin: 10px;
+  background-color: rgb(46, 46, 46);
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
