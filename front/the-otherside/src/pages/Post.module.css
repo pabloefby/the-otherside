@@ -85,6 +85,22 @@
   flex-direction: row;
   align-items: center;
   gap: 3px;
+  color: white;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.post__rate {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+  margin-top: 20px;
+  background-color: aqua;
+  background-color: rgb(37, 37, 37);
+  border: 2px solid rgb(146, 146, 146);
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .comments {
@@ -152,4 +168,39 @@
   font-family: "Bree Serif", serif;
   font-size: 15px;
   color: rgb(220, 220, 220);
+}
+
+
+/*PARTE DEL CALIFICAR GRACIAS GEMINI T AMO*/
+.rating > input {
+    display: none;
+}
+
+.rating  label {
+    cursor: pointer;
+}
+
+.rating > label:hover,
+.rating > label:hover ~ label {
+    color: #FFC300; /* Color brillante al pasar el mouse (simulando iluminación) */
+}
+
+.rating > input:checked ~ label {
+    color: #FF5733; /* Color de selección permanente (e.g., rojo para un cráneo) */
+}
+
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label {
+    color: #FFC300; /* Puedes usar el mismo color de hover o uno ligeramente distinto */
+}
+
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    display: inline-block; 
+    border: none;
+    display: flex;
+}
+.rating > label {
+    float: right;
 }

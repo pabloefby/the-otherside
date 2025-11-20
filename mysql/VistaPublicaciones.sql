@@ -1,6 +1,16 @@
 USE BooDB; 
 CREATE VIEW VW_Publicacion AS 
-SELECT P.Publicacion_id, P.Autor, Us.Foto, P.Titulo, P.TextoPubli, P.Imagen, P.ImageExt, M.NombreM AS Municipio, E.NombreE AS Estado ,Cat.NombreC AS Categoria, AVG(Cal.Calif) AS Calificacion, P.Etiqueta, 
+SELECT P.Publicacion_id, 
+P.Autor, 
+Us.Foto, 
+P.Titulo, 
+P.TextoPubli, 
+P.Imagen, P.ImageExt, 
+M.NombreM AS Municipio, 
+E.NombreE AS Estado ,
+Cat.NombreC AS Categoria, 
+ROUND(AVG(Cal.Calif),1) AS Calificacion, 
+P.Etiqueta, 
 P.FechaCreacion, P.FechaEdicion
 FROM Publicacion AS P
 JOIN Categoria AS Cat
@@ -17,4 +27,4 @@ WHERE P.EstadoPubli=0
 GROUP BY P.Publicacion_id, P.Autor, P.Titulo, P.TextoPubli, P.Imagen, P.ImageExt, M.NombreM, E.NombreE,Cat.NombreC, P.Etiqueta, P.FechaCreacion, P.FechaEdicion; 
 
 DROP VIEW VW_Publicacion;
-SELECT * FROM VW_Publicacion; 
+SELECT * FROM VW_Publicacion WHERE Categoria = 'Aliens'; 

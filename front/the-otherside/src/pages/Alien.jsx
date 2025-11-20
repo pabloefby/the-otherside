@@ -2,21 +2,21 @@ import styles from "./Alien.module.css";
 import { Navbar } from "../components/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { PostPreview } from "../components/PostPreview";
 import alienCollage from "../assets/alienCollage.png";
 import glorp from "../assets/glorp.png";
-import rocks from "../assets/rocks.png";
-import xenomorfo from "../assets/xenomorfo.png";
+//import rocks from "../assets/rocks.png";
+//import xenomorfo from "../assets/xenomorfo.png";
 
 function Alien() {
-  const user = localStorage.getItem("user");
+  //const user = localStorage.getItem("user");
   const [publis, setPublis] = useState([]);
   const [alertText, setAlertText] = useState("");
 
   const getPublis = async () => {
     try {
-      const resp = await axios.get("http://localhost:3001/publis-point");
+      const resp = await axios.get(`http://localhost:3001/publis-category/${"Aliens"}`);
       if (resp.data.msg === "Error BD") {
         alert("Error con la BD");
       } else if (resp.data.msg === "Vacio") {

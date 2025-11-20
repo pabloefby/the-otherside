@@ -176,7 +176,7 @@ function Profile() {
       if (resp.data.msg === "Error BD") {
         alert("Error con la BD");
       } else if (resp.data.msg === "Vacio") {
-        alert("Aun no has calificado publicaciones");
+        //alert("Aun no has calificado publicaciones");
         setPublisCalificadas([]);
       } else {
         setPublisCalificadas(resp.data);

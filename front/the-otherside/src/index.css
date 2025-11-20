@@ -179,3 +179,7 @@ select {
 select:hover {
   border-color: rgb(172, 52, 52);
 }
+
+::-webkit-scrollbar {
+    display: none;
+}

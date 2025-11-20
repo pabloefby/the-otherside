@@ -15,7 +15,7 @@ function Conspiracion() {
 
   const getPublis = async () => {
     try {
-      const resp = await axios.get("http://localhost:3001/publis-point");
+       const resp = await axios.get(`http://localhost:3001/publis-category/${"Conspiraciones"}`);
       if (resp.data.msg === "Error BD") {
         alert("Error con la BD");
       } else if (resp.data.msg === "Vacio") {

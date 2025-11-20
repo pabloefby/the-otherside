@@ -237,6 +237,30 @@ app.get("/publis-point", (req, resp) => {
   );
 });
 
+app.get("/publis-category/:categoria", (req, resp) => {
+  const categoria = req.params.categoria;
+
+  dbConn.query(
+    "SELECT * FROM VW_Publicacion WHERE Categoria = (?) ORDER BY FechaCreacion DESC",
+    [categoria],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "Error BD",
+        });
+        console.log(err);
+      } else if (result.length > 0) {
+        resp.json(result);
+        //console.log(result);
+      } else {
+        resp.json({
+          msg: "Vacio",
+        });
+      }
+    }
+  );
+});
+
 app.post("/login-point", (req, resp) => {
   const { name, passW } = req.body;
 
@@ -362,48 +386,49 @@ app.get("/get-one-post/:idPubli", (req, resp) => {
   );
 });
 
-app.get("/comentario/:id", (req, resp)=>{
-  const idPubli = req.params.id; 
+app.get("/comentario/:id", (req, resp) => {
+  const idPubli = req.params.id;
 
-  dbConn.query("SELECT * FROM VW_Comentario WHERE PubliComent=? ORDER BY fechaComent DESC", 
-    [idPubli], 
-  (err, result)=> {
-    if(err){
-      resp.json({
-        msg:"Error"
-      }); 
-      console.log(err); 
-    }else if(result.length > 0){
-      resp.json(result); 
-    }else{
-      resp.json({
-        msg:"Vacio"
-      }); 
-    }
-  }
-  ); 
-}); 
-
-app.post("/comentario", (req, resp)=>{
-  const {usuario, idPubli, texto} = req.body; 
-
-  dbConn.query("INSERT INTO Comentario (TextoComent,AutorComent,PubliComent) VALUES (?,?,?)", 
-    [texto, usuario, idPubli ], 
-    (err, result)=>{
-      if(err){
+  dbConn.query(
+    "SELECT * FROM VW_Comentario WHERE PubliComent=? ORDER BY fechaComent DESC",
+    [idPubli],
+    (err, result) => {
+      if (err) {
         resp.json({
-          msg:"Error"
-        }); 
-        console.log(err); 
-      }else{
+          msg: "Error",
+        });
+        console.log(err);
+      } else if (result.length > 0) {
+        resp.json(result);
+      } else {
         resp.json({
-          msg:"Joe Pino opina"
-        }); 
+          msg: "Vacio",
+        });
       }
     }
-  )
-}); 
+  );
+});
 
+app.post("/comentario", (req, resp) => {
+  const { usuario, idPubli, texto } = req.body;
+
+  dbConn.query(
+    "INSERT INTO Comentario (TextoComent,AutorComent,PubliComent) VALUES (?,?,?)",
+    [texto, usuario, idPubli],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "Error",
+        });
+        console.log(err);
+      } else {
+        resp.json({
+          msg: "Joe Pino opina",
+        });
+      }
+    }
+  );
+});
 
 app.patch("/update-fotoPerfil", archivo.single("fotoPerfil"), (req, resp) => {
   const { user } = req.body;
@@ -422,6 +447,62 @@ app.patch("/update-fotoPerfil", archivo.single("fotoPerfil"), (req, resp) => {
         resp.json({
           msg: "FotoUpdated",
         });
+      }
+    }
+  );
+});
+
+app.post("/ratePost", (req, resp) => {
+  const { idPubli, Calificador, Calificacion } = req.body;
+
+  dbConn.query(
+    "SELECT Calificacion_id FROM Calificacion WHERE AutorCalif = (?) AND PubliCalif = (?)",
+    [Calificador, idPubli],
+    (err, result) => {
+      if (err) {
+        console.log("FALLO LA BD 1");
+        console.log(err);
+        resp.json({
+          msg: "ERRORBD",
+        });
+      } else if (result.length === 0) {
+        //SI EL USUARIO NO HA CALIFICADO ESTA PUBLICACION
+        dbConn.query(
+          "INSERT INTO Calificacion(Calif, AutorCalif, PubliCalif) VALUES (?,?,?)",
+          [Calificacion, Calificador, idPubli],
+          (err, result) => {
+            if (err) {
+              console.log("FALLO LA BD 2");
+              console.log(err);
+              resp.json({
+                msg: "ERRORBD",
+              });
+            } else {
+              resp.json({
+                msg: "CALIF_INSERTED",
+              });
+            }
+          }
+        );
+      } else if (result.length > 0) {
+        //SI EL USUARIO YA HA CALIFICADO
+        dbConn.query(
+          "UPDATE Calificacion SET Calif = (?) WHERE AutorCalif = (?) AND PubliCalif = (?)",
+          [Calificacion, Calificador, idPubli],
+          (err, result) => {
+            if (err) {
+              console.log("FALLO LA BD 3");
+              console.log(err);
+              resp.json({
+                msg: "ERRORBD",
+              });
+            } else {
+              resp.json({
+                msg: "CALIF_UPDATED",
+              });
+            }
+          }
+        );
       }
     }
   );

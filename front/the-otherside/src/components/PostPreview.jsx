@@ -51,9 +51,7 @@ export function PostPreview({ publiData }) {
       </div>
       <div className={styles.postPreview__actions}>
         <div className={styles.postPreview__score}>
-          {Array.from({ length: calif }).map((_, i) => (
-            <span key={i}>{skull}</span>
-          ))}
+          {publiData.Calificacion ?? "N/A"} {skull}
         </div>
         <button onClick={(e) =>{
           navigate(`/Post/${publiData.Publicacion_id}`);

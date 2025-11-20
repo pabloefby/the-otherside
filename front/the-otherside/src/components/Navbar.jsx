@@ -10,13 +10,27 @@ export function Navbar() {
 
   const handleNavigate = (dato) => {
     switch (dato) {
+
+      case "Misterio":
+        navigate('/Misterio');
+        break
+
       case "Alien":
         navigate("/Alien");
+        break;
+
+      case "Brujeria":
+        navigate("/Brujeria")
+        break;
+
+      case "Leyendas":
+        navigate("/Leyendas")
         break;
 
       case "Conspiracion":
         navigate("/Conspiracion");
         break;
+
 
       default:
         break;
@@ -30,21 +44,22 @@ export function Navbar() {
       </Link>
 
       <div className={styles.navbar__categories}>
-        <button className={styles.navbar__button}>MISTERIO</button>
+        <button className={styles.navbar__button}
+        onClick={() => handleNavigate("Misterio")}
+        >MISTERIO</button>
         <button
           className={styles.navbar__button}
           onClick={() => handleNavigate("Alien")}
-        >
-          ALIEN
-        </button>
-        <button className={styles.navbar__button}>BRUJERIA</button>
-        <button className={styles.navbar__button}>LEYENDAS</button>
-        <button
-          className={styles.navbar__button}
-          onClick={() => handleNavigate("Conspiracion")}
-        >
-          CONSPIRACION
-        </button>
+        >ALIEN</button>
+        <button className={styles.navbar__button}
+        onClick={() => handleNavigate("Brujeria")}
+        >BRUJERIA</button>
+        <button className={styles.navbar__button}
+        onClick={() => handleNavigate("Leyendas")}
+        >LEYENDAS</button>
+        <button className={styles.navbar__button}
+        onClick={() => handleNavigate("Conspiracion")}
+        >CONSPIRACION</button>
         <button className={styles.navbar__button}>CREEPYPASTA</button>
         <button className={styles.navbar__button}>FANTASMA</button>
       </div>

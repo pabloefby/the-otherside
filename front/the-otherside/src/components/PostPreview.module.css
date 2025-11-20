@@ -83,5 +83,13 @@
   cursor: pointer;
 }
 
+.postPreview__score{
+    color: white;
+    display: flex;
+    align-items: center;
+    font-family: "Bree Serif", serif;
+    font-size: 20px;
+    gap: 5px;
+}
 
 
