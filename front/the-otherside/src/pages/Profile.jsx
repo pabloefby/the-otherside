@@ -18,7 +18,9 @@ function Profile() {
   const user = localStorage.getItem("user");
   const [editPerfil, setEditPerfil] = useState(false);
   const [publis, setPublis] = useState([]);
+  const [publisCalificadas, setPublisCalificadas] = useState([]);
   const [modalBorrar, setModalBorrar] = useState(false);
+  const [publiCalif, setPubliCalif] = useState(false); 
   const [userData, setuserData] = useState({
     Correo: "",
     Pssword: "",
@@ -166,6 +168,26 @@ function Profile() {
     }
   };
 
+
+    const getPublisCalificadas = async () => {
+    try {
+      const resp = await axios.get(
+        `http://localhost:3001/userPublis-calificadas/${user}`
+      );
+      if (resp.data.msg === "Error BD") {
+        alert("Error con la BD");
+      } else if (resp.data.msg === "Vacio") {
+        alert("Aun no has calificado publicaciones");
+        setPublisCalificadas([]);
+      } else {
+        setPublisCalificadas(resp.data);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error en la peticion al obtener publicaciones que el usuario a calificado");
+    }
+  };
+
   const [fotoPerfil, setFotoPerfil] = useState(null);
 
   const handleFotoChange = (event) => {
@@ -190,6 +212,7 @@ function Profile() {
   useEffect(() => {
     getUserData();
     getPublis();
+    getPublisCalificadas(); 
   }, []);
 
   if (!user) return <Navigate to="/" replace />;
@@ -346,23 +369,38 @@ function Profile() {
           </div>
 
           <div className={styles.profile__buttons}>
-            <button className={styles.profile__MisPubli_Button}>
+            <button 
+            type="button"
+            onClick={()=>{setPubliCalif(false)}}
+            className={styles.profile__MisPubli_Button}>
               Mis Publicaciones
             </button>
-            <button className={styles.profile__PubliCalif_Button}>
+            <button 
+            type="button"
+            onClick={()=>{setPubliCalif(true)}}
+            className={styles.profile__PubliCalif_Button}>
               Publicaciones que has calificado
             </button>
           </div>
-
           <div className={styles.profile__userPubli}>
-            {publis.map((publi, key) => {
-              return (
+             {!publiCalif && (
+            publis.map((publi) => (          
                 <PostPreview
                   key={publi.Publicacion_id}
                   publiData={publi}
                 ></PostPreview>
-              );
-            })}
+            ))
+          )}
+
+           {publiCalif && (
+            publisCalificadas.map((publiCalificada) => (          
+                <PostPreview
+                  key={publiCalificada.Publicacion_id}
+                  publiData={publiCalificada}
+                ></PostPreview>
+            ))
+          )}
+            
           </div>
         </div>
       </div>

@@ -52,7 +52,7 @@ export function Navbar() {
         <Link to="/Profile" className={styles["navar__image-link"]}>
           <img
             src={
-              foto 
+              foto && foto !== "null" && foto !== "undefined" 
                 ? `data:image/png;base64,${foto}`
                 : defaultProfile
             }

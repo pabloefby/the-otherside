@@ -132,6 +132,28 @@ app.get("/userPublis-point/:user", (req, resp) => {
   );
 });
 
+app.get("/userPublis-calificadas/:user", (req, resp) => {
+  dbConn.query(
+    "SELECT Publicacion_id,Autor,Foto, Titulo, TextoPubli, Imagen, ImageExt, Municipio, Estado ,Categoria, Calificacion, Etiqueta,FechaCreacion, FechaEdicion FROM Calificacion AS C JOIN VW_Publicacion ON C.PubliCalif = Publicacion_id WHERE AutorCalif=? ORDER BY FechaCalif DESC ",
+    req.params.user,
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "Error BD",
+        });
+        console.log(err);
+      } else if (result.length > 0) {
+        resp.json(result);
+        //console.log(result);
+      } else {
+        resp.json({
+          msg: "Vacio",
+        });
+      }
+    }
+  );
+});
+
 app.delete("/userData-point/:user", (req, resp) => {
   const name = req.params.user;
   dbConn.query(
@@ -339,6 +361,49 @@ app.get("/get-one-post/:idPubli", (req, resp) => {
     }
   );
 });
+
+app.get("/comentario/:id", (req, resp)=>{
+  const idPubli = req.params.id; 
+
+  dbConn.query("SELECT * FROM VW_Comentario WHERE PubliComent=? ORDER BY fechaComent DESC", 
+    [idPubli], 
+  (err, result)=> {
+    if(err){
+      resp.json({
+        msg:"Error"
+      }); 
+      console.log(err); 
+    }else if(result.length > 0){
+      resp.json(result); 
+    }else{
+      resp.json({
+        msg:"Vacio"
+      }); 
+    }
+  }
+  ); 
+}); 
+
+app.post("/comentario", (req, resp)=>{
+  const {usuario, idPubli, texto} = req.body; 
+
+  dbConn.query("INSERT INTO Comentario (TextoComent,AutorComent,PubliComent) VALUES (?,?,?)", 
+    [texto, usuario, idPubli ], 
+    (err, result)=>{
+      if(err){
+        resp.json({
+          msg:"Error"
+        }); 
+        console.log(err); 
+      }else{
+        resp.json({
+          msg:"Joe Pino opina"
+        }); 
+      }
+    }
+  )
+}); 
+
 
 app.patch("/update-fotoPerfil", archivo.single("fotoPerfil"), (req, resp) => {
   const { user } = req.body;

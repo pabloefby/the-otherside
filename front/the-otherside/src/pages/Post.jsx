@@ -1,5 +1,6 @@
 import styles from "./Post.module.css";
 import { Navbar } from "../components/Navbar";
+import Comentario from "../components/Comentario"; 
 import defaultProfile from "../assets/defaultProfile.png";
 import pastel from "../assets/pastel.jpg";
 import skullIcon from "../assets/skullIcon.png";
@@ -14,6 +15,49 @@ function Post() {
   const { id } = useParams();
 
   const [thisPost, setThisPost] = useState(null);
+  const [comentarioS, setComentarioS]=useState([]); 
+  const[commentText, setCommentText] = useState(""); 
+  const[fechaPost, setFechaPost] = useState(""); 
+
+
+  const getComment= async()=> {
+    try{
+      const respuesta = await axios.get(`http://localhost:3001/comentario/${id}`); 
+      if(respuesta.data.msg==="Error"){
+        alert("Error en la BD al obtener comentarios"); 
+      }else if(respuesta.data.msg==="Vacio"){
+        console.log("no hay comentarios"); 
+        setComentarioS([]); 
+      }else{
+        setComentarioS(respuesta.data); 
+      }
+
+    }catch(error){
+      console.error(error); 
+    }
+  }
+
+  const sendComment = async(e)=> {
+    e.preventDefault();
+   
+    try{
+      const respuesta= await axios.post("http://localhost:3001/comentario", 
+        {
+          usuario: user, 
+          idPubli: id , 
+          texto: commentText
+        }); 
+      if(respuesta.data.msg==="Error"){
+        alert("Error en la BD al subir comentario"); 
+      }else if(respuesta.data.msg==="Joe Pino opina"){
+        setCommentText(""); 
+        getComment();
+      }
+
+    }catch(error){
+      console.log(error); 
+    }
+  }
 
   const getPost = async () => {
     try {
@@ -26,6 +70,16 @@ function Post() {
       } else {
         setThisPost(respuesta.data[0]);
         console.log(respuesta.data[0]);
+    const fecha = respuesta.data[0].FechaEdicion
+    ? new Date(respuesta.data[0].FechaEdicion)
+    : new Date(respuesta.data[0].FechaCreacion);
+
+    const fechaLocal = respuesta.data[0].FechaEdicion
+    ? `editado en ${fecha.toLocaleString()}`
+    : `creado en ${fecha.toLocaleString()}`;
+
+    setFechaPost(fechaLocal);   
+
       }
     } catch (error) {
       console.error(error);
@@ -34,6 +88,7 @@ function Post() {
 
   useEffect(() => {
     getPost();
+    getComment(); 
   }, []);
 
   return (
@@ -53,7 +108,7 @@ function Post() {
             />
             <label className={styles.post__username}>{thisPost?.Autor}</label>
             <label className={styles.post__date}>
-              creado en {thisPost?.FechaCreacion}
+              {fechaPost}
             </label>
             <label className={styles.post__category}>
               {thisPost?.Categoria}
@@ -87,10 +142,11 @@ function Post() {
           <div className={styles.comments}>
             <label className="subtitle">Comentarios</label>
             <div className={styles.newComment}>
-              <form className={styles.newComment__form} onSubmit={() => {}}>
+              <form className={styles.newComment__form} onSubmit={sendComment}>
                 <textarea
                   className={styles.newComment__text}
-                  onChange={() => {}}
+                  value={commentText}
+                  onChange={(e) => {setCommentText(e.target.value)}}
                   placeholder={`Escribe un comentario como ${user} ...`}
                 ></textarea>
                 <button type="submit" className={styles.newComment__button}>
@@ -98,46 +154,14 @@ function Post() {
                 </button>
               </form>
             </div>
-            <div className={styles.comment}>
-              <div className={styles.comment__header}>
-                <img
-                  src={defaultProfile}
-                  alt="profileImage"
-                  className={styles.comment__userimage}
-                />
-                <label className={styles.comment__username}>{user}</label>
-                <label className={styles.comment__date}>
-                  creado en 21/12/2012 12:12
-                </label>
-              </div>
-              <div className={styles.comment__body}>
-                <p className={styles.comment__text}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur pharetra elementum tellus, nec fringilla sapien
-                  accumsan vel.
-                </p>
-              </div>
-            </div>
-            <div className={styles.comment}>
-              <div className={styles.comment__header}>
-                <img
-                  src={defaultProfile}
-                  alt="profileImage"
-                  className={styles.comment__userimage}
-                />
-                <label className={styles.comment__username}>{user}</label>
-                <label className={styles.comment__date}>
-                  creado en 21/12/2012 12:12
-                </label>
-              </div>
-              <div className={styles.comment__body}>
-                <p className={styles.comment__text}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur pharetra elementum tellus, nec fringilla sapien
-                  accumsan vel.
-                </p>
-              </div>
-            </div>
+            {comentarioS.map((comentario)=>{
+              return(
+                <Comentario 
+                key={comentario.Comentario_id}
+                commentData={comentario}>
+                </Comentario>
+              )
+            })}
           </div>
         </div>
       </div>
