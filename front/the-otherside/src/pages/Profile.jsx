@@ -104,14 +104,13 @@ function Profile() {
     frmData.append("fotoPerfil", fotoPerfil);
 
     if (fotoPerfil) {
-        try {
-
-            const base64DataUrl = await readFileAsBase64(fotoPerfil);
-            const base64String = base64DataUrl.split(',')[1]; 
-            localStorage.setItem("fotoPerfil", base64String); 
-        } catch (error) {
-            console.error("Error al convertir a Base64:", error);
-        }
+      try {
+        const base64DataUrl = await readFileAsBase64(fotoPerfil);
+        const base64String = base64DataUrl.split(",")[1];
+        localStorage.setItem("fotoPerfil", base64String);
+      } catch (error) {
+        console.error("Error al convertir a Base64:", error);
+      }
     }
 
     try {
@@ -335,7 +334,7 @@ function Profile() {
                     <button
                       type="button"
                       className={styles.profile__delete_Button}
-                      onClick={() => setModalBorrar}
+                      onClick={() => setModalBorrar(true)}
                     >
                       Eliminar
                     </button>
