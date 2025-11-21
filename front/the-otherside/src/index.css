@@ -30,6 +30,13 @@ h2 {
   color: rgb(146, 146, 146);
 }
 
+h3{
+    font-size: 20px;
+  font-family: "Kiwi Maru", serif;
+  color: rgb(146, 146, 146);
+
+}
+
 label {
   font-family: "Bree Serif", serif;
   font-size: 20px;

@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mysql2 = require("mysql2");
 const multer = require("multer");
+const fs = require("fs");
 
 const dbSettings = require("./dbsettings");
 
@@ -31,44 +32,44 @@ const archivo = multer({
 });
 
 function validateCampos(categoria, etiqueta, titulo, contenido, municipio) {
-    let errores = false;
+  let errores = false;
 
-    if (categoria === null || categoria === undefined || categoria === "") {
-     errores=true; 
-    }
-
-    if (etiqueta === null || etiqueta === undefined || etiqueta.trim() === "") {
-      errores=true; 
-    }
-
-    if(etiqueta.length>=50){
-      errores=true; 
-    }
-
-     if(titulo.length>=255){
-      errores=true; 
-    }
-
-    if (titulo === null || titulo === undefined || titulo.trim() === "") {
-      errores=true; 
-    }
-
-    if (
-      contenido === null ||
-      contenido === undefined ||
-      contenido.trim() === ""
-    ) {
-      errores=true; 
-    }
-
-    if (municipio === null || municipio === undefined || municipio === "") {
-      errores=true; 
-    }
-
-    return errores;
+  if (categoria === null || categoria === undefined || categoria === "") {
+    errores = true;
   }
 
-  function validteCredentialsEditProfile(email, password) {
+  if (etiqueta === null || etiqueta === undefined || etiqueta.trim() === "") {
+    errores = true;
+  }
+
+  if (etiqueta.length >= 50) {
+    errores = true;
+  }
+
+  if (titulo.length >= 255) {
+    errores = true;
+  }
+
+  if (titulo === null || titulo === undefined || titulo.trim() === "") {
+    errores = true;
+  }
+
+  if (
+    contenido === null ||
+    contenido === undefined ||
+    contenido.trim() === ""
+  ) {
+    errores = true;
+  }
+
+  if (municipio === null || municipio === undefined || municipio === "") {
+    errores = true;
+  }
+
+  return errores;
+}
+
+function validteCredentialsEditProfile(email, password) {
   var errors = false;
 
   const regesEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -113,6 +114,18 @@ function validateCredentialsLogin(usuario, password) {
   } else return false;
 }
 
+function ErrorLog(error) {
+  const msgError = `ERROR: ${
+    error.message
+  } \nFecha: ${new Date().toISOString()}\n\n `;
+
+  fs.appendFile('errors.txt',msgError, (err)=>{
+    if(err){
+      console.error("Error al crear archivo log " + err);
+    }
+  })
+}
+
 app.post("/register-point", (req, resp) => {
   const { name, email, passW } = req.body;
 
@@ -137,6 +150,7 @@ app.post("/register-point", (req, resp) => {
           resp.json({
             msg: "Chale no se pudo",
           });
+          ErrorLog(err);
         }
         console.log(err);
       } else {
@@ -155,6 +169,7 @@ app.get("/get-top-municipios", (req, resp) => {
     (err, result) => {
       if (err) {
         resp.json({ msg: "Error DB" });
+        ErrorLog(err);
       } else if (result.length > 0) {
         resp.json(result);
       } else {
@@ -174,6 +189,7 @@ app.get("/userPublis-point/:user", (req, resp) => {
           msg: "Error BD",
         });
         console.log(err);
+        ErrorLog(err);
       } else if (result.length > 0) {
         resp.json(result);
         //console.log(result);
@@ -196,6 +212,7 @@ app.get("/userPublis-calificadas/:user", (req, resp) => {
           msg: "Error BD",
         });
         console.log(err);
+        ErrorLog(err);
       } else if (result.length > 0) {
         resp.json(result);
         //console.log(result);
@@ -219,6 +236,7 @@ app.delete("/userData-point/:user", (req, resp) => {
           msg: "Error BD",
         });
         console.log(err);
+        ErrorLog(err);
       } else {
         resp.json({
           msg: "Eliminado",
@@ -240,6 +258,7 @@ app.get("/userData-point/:user", (req, resp) => {
           msg: "Error BD",
         });
         console.log(err);
+        ErrorLog(err);
       } else {
         resp.json(result);
         //console.log(result);
@@ -268,6 +287,7 @@ app.patch("/userData-point", (req, resp) => {
           msg: "Error BD",
         });
         //console.log(err);
+        ErrorLog(err);
       } else {
         //console.log(result);
         resp.json({
@@ -290,6 +310,7 @@ app.get("/publis-point", (req, resp) => {
       } else if (result.length > 0) {
         resp.json(result);
         //console.log(result);
+        ErrorLog(err);
       } else {
         resp.json({
           msg: "Vacio",
@@ -306,6 +327,7 @@ app.get("/publis-category-trend/:categoria", (req, resp) => {
       resp.json({
         msg: "Error BD",
       });
+      ErrorLog(err);
       //console.log(err);
     } else if (result.length > 0) {
       resp.json(result[0]);
@@ -329,6 +351,7 @@ app.get("/publis-category/:categoria", (req, resp) => {
         resp.json({
           msg: "Error BD",
         });
+        ErrorLog(err);
         console.log(err);
       } else if (result.length > 0) {
         resp.json(result);
@@ -361,6 +384,7 @@ app.post("/login-point", (req, resp) => {
           msg: "ERROR",
         });
         console.log(err);
+        ErrorLog(err);
       } else {
         if (result[0].length > 0) {
           resp.json({
@@ -384,6 +408,7 @@ app.get("/get-categories", (req, resp) => {
   dbConn.query("SELECT * FROM Categoria", (err, result) => {
     if (err) {
       resp.json({ msg: "Error DB" });
+      ErrorLog(err);
     } else if (result.length > 0) {
       resp.json(result);
       //console.log(result);
@@ -397,6 +422,7 @@ app.get("/get-estados", (req, resp) => {
   dbConn.query("SELECT * FROM Estado", (err, result) => {
     if (err) {
       resp.json({ msg: "Error DB" });
+      ErrorLog(err);
     } else if (result.length > 0) {
       resp.json(result);
       //console.log(result);
@@ -417,6 +443,7 @@ app.get("/get-municipios/:idEstado", (req, resp) => {
         resp.json({
           msg: "ErrorDB",
         });
+        ErrorLog(err);
       } else {
         resp.json(result);
       }
@@ -428,7 +455,7 @@ app.post("/new-post", archivo.single("imagen"), (req, resp) => {
   const { categoria, etiqueta, titulo, contenido, municipio, autor } = req.body;
   const imagen = req.file ? req.file.buffer.toString("base64") : null;
 
-     if (validateCampos(categoria, etiqueta, titulo, contenido, municipio)) {
+  if (validateCampos(categoria, etiqueta, titulo, contenido, municipio)) {
     resp.json({
       msg: "CREDENCIALES MALAS",
     });
@@ -444,6 +471,7 @@ app.post("/new-post", archivo.single("imagen"), (req, resp) => {
         resp.json({
           msg: "ErrorDB",
         });
+        ErrorLog(err);
         console.log(err);
       } else {
         resp.json({
@@ -466,6 +494,7 @@ app.get("/get-one-post/:idPubli", (req, resp) => {
         resp.json({
           msg: "ERROR",
         });
+        ErrorLog(err);
         console.log(err);
       } else {
         resp.json(result);
@@ -485,6 +514,7 @@ app.get("/comentario/:id", (req, resp) => {
         resp.json({
           msg: "Error",
         });
+        ErrorLog(err);
         console.log(err);
       } else if (result.length > 0) {
         resp.json(result);
@@ -499,8 +529,8 @@ app.get("/comentario/:id", (req, resp) => {
 
 app.post("/comentario", (req, resp) => {
   const { usuario, idPubli, texto } = req.body;
-  if(!texto|| texto.trim()===""){
-     resp.json({
+  if (!texto || texto.trim() === "") {
+    resp.json({
       msg: "CREDENCIALES MALAS",
     });
 
@@ -515,6 +545,7 @@ app.post("/comentario", (req, resp) => {
         resp.json({
           msg: "Error",
         });
+        ErrorLog(err);
         console.log(err);
       } else {
         resp.json({
@@ -537,6 +568,7 @@ app.patch("/update-fotoPerfil", archivo.single("fotoPerfil"), (req, resp) => {
         resp.json({
           msg: "ErrorDB",
         });
+        ErrorLog(err);
         console.log(err);
       } else {
         resp.json({
@@ -560,6 +592,7 @@ app.post("/ratePost", (req, resp) => {
         resp.json({
           msg: "ERRORBD",
         });
+        ErrorLog(err);
       } else if (result.length === 0) {
         //SI EL USUARIO NO HA CALIFICADO ESTA PUBLICACION
         dbConn.query(
@@ -572,6 +605,7 @@ app.post("/ratePost", (req, resp) => {
               resp.json({
                 msg: "ERRORBD",
               });
+              ErrorLog(err);
             } else {
               resp.json({
                 msg: "CALIF_INSERTED",
@@ -591,6 +625,7 @@ app.post("/ratePost", (req, resp) => {
               resp.json({
                 msg: "ERRORBD",
               });
+              ErrorLog(err);
             } else {
               resp.json({
                 msg: "CALIF_UPDATED",
@@ -614,6 +649,7 @@ app.get("/getPromedio/:id", (req, resp) => {
         resp.json({
           msg: "ERRORDB",
         });
+        ErrorLog(err);
       } else {
         resp.json(result);
       }
@@ -633,6 +669,7 @@ app.get("/get-one-post-edit/:idPubli", (req, resp) => {
         resp.json({
           msg: "ERROR",
         });
+        ErrorLog(err);
         console.log(err);
       } else {
         resp.json(result);
@@ -646,7 +683,7 @@ app.patch("/updatePost", archivo.single("imagen"), (req, resp) => {
     req.body;
   const imagen = req.file ? req.file.buffer.toString("base64") : null;
 
-   if (validateCampos(categoria, etiqueta, titulo, contenido, municipio)) {
+  if (validateCampos(categoria, etiqueta, titulo, contenido, municipio)) {
     resp.json({
       msg: "CREDENCIALES MALAS",
     });
@@ -655,12 +692,23 @@ app.patch("/updatePost", archivo.single("imagen"), (req, resp) => {
   }
   dbConn.query(
     "UPDATE Publicacion SET Categoria = (?), Etiqueta = (?), Titulo = (?), TextoPubli = (?), Municipio = (?), Imagen = CASE WHEN (?) IS NULL OR (?)='' THEN Imagen ELSE (?) END WHERE Publicacion_id = (?)",
-    [categoria, etiqueta, titulo, contenido, municipio, imagen,imagen,imagen, idPubli],
+    [
+      categoria,
+      etiqueta,
+      titulo,
+      contenido,
+      municipio,
+      imagen,
+      imagen,
+      imagen,
+      idPubli,
+    ],
     (err, result) => {
       if (err) {
         resp.json({
           msg: "ERRORDB",
         });
+        ErrorLog(err);
         console.log(err);
       } else {
         resp.json({
@@ -683,10 +731,53 @@ app.delete("/deletePost/:idPost", (req, resp) => {
           msg: "ERRORDB",
         });
         console.log(err);
-      }else{
+        ErrorLog(err);
+      } else {
         resp.json({
-          msg: "DELETED"
-        })
+          msg: "DELETED",
+        });
+      }
+    }
+  );
+});
+
+app.delete("/deleteComment/:idComment", (req, resp) => {
+  const id = req.params.idComment;
+
+  dbConn.query(
+    "DELETE FROM Comentario WHERE Comentario_id = (?)",
+    [id],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "ERRORDB",
+        });
+        ErrorLog(err);
+      } else {
+        resp.json({
+          msg: "DELETED",
+        });
+      }
+    }
+  );
+});
+
+app.patch("/updateComment", (req, resp) => {
+  const { idComentario, nuevoTexto } = req.body;
+
+  dbConn.query(
+    "UPDATE Comentario SET TextoComent = (?) WHERE Comentario_id = (?)",
+    [nuevoTexto, idComentario],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "ERRORDB",
+        });
+        ErrorLog(err);
+      } else {
+        resp.json({
+          msg: "UPLOADED",
+        });
       }
     }
   );
