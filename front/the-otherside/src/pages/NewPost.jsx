@@ -109,6 +109,11 @@ function NewPost() {
       municipio
     );
 
+    if(imagen === null || imagen === undefined){
+      alert("Agrega imagen");
+      return;
+    }
+
     if (errores.length > 0) {
       alert(errores);
       return;

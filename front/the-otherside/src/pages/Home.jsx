@@ -83,10 +83,7 @@ function Home() {
                     {municipio.TotalPublicaciones} publicaciones
                   </label>
                   <div className={styles["home__ranking-score"]}>
-                    {skull}
-                    {skull}
-                    {skull}
-                    {skull}
+                    {municipio.Calificacion}
                     {skull}
                   </div>
                 </div>

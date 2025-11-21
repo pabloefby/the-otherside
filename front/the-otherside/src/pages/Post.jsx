@@ -11,13 +11,13 @@ function Post() {
   const skull = <img src={skullIcon} alt="skullIcon" className="skullStyle" />;
   const user = localStorage.getItem("user");
 
+
   const { id } = useParams();
 
   const [thisPost, setThisPost] = useState(null);
   const [comentarioS, setComentarioS] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [fechaPost, setFechaPost] = useState("");
-  const [califPost, setCalifPost] = useState(0.0);
 
   const getComment = async () => {
     try {
@@ -67,7 +67,7 @@ function Post() {
         alert("ERROR EN LA BD");
       } else {
         setThisPost(respuesta.data[0]);
-        console.log(respuesta.data[0]);
+        //console.log(respuesta.data[0]);
 
         const fecha = respuesta.data[0].FechaEdicion
           ? new Date(respuesta.data[0].FechaEdicion)

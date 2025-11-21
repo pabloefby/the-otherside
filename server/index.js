@@ -218,7 +218,7 @@ app.patch("/userData-point", (req, resp) => {
 
 app.get("/publis-point", (req, resp) => {
   dbConn.query(
-    "SELECT * FROM VW_Publicacion ORDER BY FechaCreacion DESC",
+    "SELECT * FROM VW_Publicacion ORDER BY FechaCreacion DESC ",
     (err, result) => {
       if (err) {
         resp.json({
@@ -239,32 +239,28 @@ app.get("/publis-point", (req, resp) => {
 
 app.get("/publis-category-trend/:categoria", (req, resp) => {
   const categoria = req.params.categoria;
-  dbConn.query(
-    "CALL SP_Subforos(1, ?)",
-    [categoria],
-    (err, result) => {
-      if (err) {
-        resp.json({
-          msg: "Error BD"
-        });
-        console.log(err);
-      } else if (result.length > 0) {
-        resp.json(result[0]);
-        console.log(result[0]);
-      } else {
-        resp.json({
-          msg: "Vacio"
-        });
-      }
+  dbConn.query("CALL SP_Subforos(1, ?)", [categoria], (err, result) => {
+    if (err) {
+      resp.json({
+        msg: "Error BD",
+      });
+      //console.log(err);
+    } else if (result.length > 0) {
+      resp.json(result[0]);
+      //console.log(result[0]);
+    } else {
+      resp.json({
+        msg: "Vacio",
+      });
     }
-  );
+  });
 });
 
 app.get("/publis-category/:categoria", (req, resp) => {
   const categoria = req.params.categoria;
 
   dbConn.query(
-    "CALL SP_Subforos(2, ?)",
+    "SELECT * FROM VW_Publicacion WHERE Categoria = (?) ORDER BY FechaCreacion DESC",
     [categoria],
     (err, result) => {
       if (err) {
@@ -273,7 +269,7 @@ app.get("/publis-category/:categoria", (req, resp) => {
         });
         console.log(err);
       } else if (result.length > 0) {
-        resp.json(result[0]);
+        resp.json(result);
         //console.log(result);
       } else {
         resp.json({
@@ -294,7 +290,6 @@ app.post("/login-point", (req, resp) => {
 
     return;
   }
-
   dbConn.query(
     "CALL sp_Usuario(2,?,?,?)",
     [name, null, passW],
@@ -526,6 +521,88 @@ app.post("/ratePost", (req, resp) => {
             }
           }
         );
+      }
+    }
+  );
+});
+
+app.get("/getPromedio/:id", (req, resp) => {
+  const usuario = req.params.id;
+
+  dbConn.query(
+    "SELECT * FROM VW_PromedioDeUsuario WHERE NombreUsu = (?)",
+    [usuario],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "ERRORDB",
+        });
+      } else {
+        resp.json(result);
+      }
+    }
+  );
+});
+
+app.get("/get-one-post-edit/:idPubli", (req, resp) => {
+  const idPubli = req.params.idPubli;
+  //console.log(idPubli);
+
+  dbConn.query(
+    "SELECT * FROM VW_PublicacionEditar WHERE Publicacion_id = (?)",
+    [idPubli],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "ERROR",
+        });
+        console.log(err);
+      } else {
+        resp.json(result);
+      }
+    }
+  );
+});
+
+app.patch("/updatePost", archivo.single("imagen"), (req, resp) => {
+  const { idPubli, categoria, etiqueta, titulo, contenido, municipio } =
+    req.body;
+  const imagen = req.file ? req.file.buffer.toString("base64") : null;
+
+  dbConn.query(
+    "UPDATE Publicacion SET Categoria = (?), Etiqueta = (?), Titulo = (?), TextoPubli = (?), Municipio = (?), Imagen = (?) WHERE Publicacion_id = (?)",
+    [categoria, etiqueta, titulo, contenido, municipio, imagen, idPubli],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "ERRORDB",
+        });
+        console.log(err);
+      } else {
+        resp.json({
+          msg: "UPDATED",
+        });
+      }
+    }
+  );
+});
+
+app.delete("/deletePost/:idPost", (req, resp) => {
+  const id = req.params.idPost;
+
+  dbConn.query(
+    "UPDATE Publicacion SET EstadoPubli = 1 WHERE Publicacion_id = (?)",
+    [id],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "ERRORDB",
+        });
+        console.log(err);
+      }else{
+        resp.json({
+          msg: "DELETED"
+        })
       }
     }
   );

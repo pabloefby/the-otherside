@@ -2,7 +2,7 @@ import styles from "./Misterio.module.css";
 import { Navbar } from "../components/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { PostPreview } from "../components/PostPreview";
 import misterioCollage from "../assets/misterioCollage.png";
 import cabra from "../assets/cabra.png";
@@ -15,9 +15,11 @@ function Misterio() {
   const [publisTrend, setPublisTrend] = useState([]);
   const [alertText, setAlertText] = useState("");
 
-    const getPublisTrend = async () => {
+  const getPublisTrend = async () => {
     try {
-      const resp = await axios.get(`http://localhost:3001/publis-category-trend/${"Misterio"}`);
+      const resp = await axios.get(
+        `http://localhost:3001/publis-category-trend/${"Misterio"}`
+      );
       if (resp.data.msg === "Error BD") {
         alert("Error con la BD");
       } else if (resp.data.msg === "Vacio") {
@@ -25,7 +27,7 @@ function Misterio() {
         setPublisTrend([]);
       } else {
         setPublisTrend(resp.data);
-        console.log(resp.data);
+        //console.log(resp.data);
       }
     } catch (error) {
       console.log(error);
@@ -33,10 +35,11 @@ function Misterio() {
     }
   };
 
-
   const getPublis = async () => {
     try {
-       const resp = await axios.get(`http://localhost:3001/publis-category/${"Misterio"}`);
+      const resp = await axios.get(
+        `http://localhost:3001/publis-category/${"Misterio"}`
+      );
       if (resp.data.msg === "Error BD") {
         alert("Error con la BD");
       } else if (resp.data.msg === "Vacio") {
@@ -54,7 +57,7 @@ function Misterio() {
 
   useEffect(() => {
     getPublis();
-    getPublisTrend(); 
+    getPublisTrend();
   }, []);
 
   return (

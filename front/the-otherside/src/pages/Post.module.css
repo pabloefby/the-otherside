@@ -73,8 +73,9 @@
   margin: 10px 0px;
 }
 
-.post__image {
+.post__postImage {
   width: 100%;
+  max-width: 100%;
   display: flex;
   justify-content: center;
   margin: 20px 0px;

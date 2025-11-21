@@ -63,6 +63,23 @@
   padding-top: 8%;
 }
 
+.profile__promedio{
+  background-color:  rgb(46, 46, 46);
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor:default;
+}
+
+.profile__datoPromedio{
+  color: white;
+}
+
 .profile_labelNombre {
   font-size: 25px;
   margin-bottom: 20px;

@@ -2,22 +2,26 @@ import styles from "./UpdatePost.module.css";
 import { Navbar } from "../components/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function UpdatePost() {
+  const autor = localStorage.getItem("user");
+  const { id } = useParams();
+
   const [categoria, SetCategoria] = useState("");
   const [etiqueta, SetEtiqueta] = useState("");
   const [titulo, SetTitulo] = useState("");
   const [contenido, SetContenido] = useState("");
   const [imagen, SetImagen] = useState(null);
+  const [imagenUpdate, setImagenUpdate] = useState(null);
   const [estado, SetEstado] = useState("");
   const [municipio, SetMunicipio] = useState("");
-
-  const autor = localStorage.getItem("user");
 
   const [listCategorias, setListCategorias] = useState([]);
   const [listEstados, setListEstados] = useState([]);
   const [listMunicipios, setListMunicipios] = useState([]);
+
+  //const [thisPost, setThisPost] = useState(null);
 
   const navigate = useNavigate();
 
@@ -29,7 +33,7 @@ function UpdatePost() {
         alert("Error en la db");
       } else {
         setListCategorias(resp.data);
-        console.log(listCategorias);
+        //console.log(listCategorias);
       }
     } catch (error) {
       alert("error en la peticion");
@@ -44,7 +48,7 @@ function UpdatePost() {
         alert("Error en la db");
       } else {
         setListEstados(resp.data);
-        console.log(listEstados);
+        //console.log(listEstados);
       }
     } catch (error) {
       alert("error en la peticion");
@@ -65,6 +69,74 @@ function UpdatePost() {
     } catch (error) {
       alert("error en la peticion");
     }
+  };
+
+  const getPost = async () => {
+    try {
+      const respuesta = await axios.get(
+        `http://localhost:3001/get-one-post-edit/${id}`
+      );
+
+      if (respuesta.data.msg === "ERROR") {
+        alert("ERROR EN LA BD");
+      } else {
+        SetCategoria(respuesta.data[0].Categoria);
+        SetEtiqueta(respuesta.data[0].Etiqueta);
+        SetTitulo(respuesta.data[0].Titulo);
+        SetContenido(respuesta.data[0].TextoPubli);
+        SetImagen("data:image/png;base64," +respuesta.data[0].Imagen);
+        SetEstado(respuesta.data[0].Estado);
+        SetMunicipio(respuesta.data[0].Municipio);
+        
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updatePost = async (e) => {
+    e.preventDefault();
+
+    console.log(imagenUpdate)
+
+    
+    if(imagenUpdate === null){
+      alert("Eliga una foto por favor");
+      return;
+    }
+
+    const frmPubli = new FormData();
+    frmPubli.append("idPubli",id)
+    frmPubli.append("categoria", categoria);
+    frmPubli.append("etiqueta", etiqueta);
+    frmPubli.append("titulo", titulo);
+    frmPubli.append("contenido", contenido);
+    frmPubli.append("municipio",municipio);
+    frmPubli.append("imagen", imagenUpdate);
+
+    try {
+      const respuesta = await axios.patch("http://localhost:3001/updatePost",
+        frmPubli,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      if(respuesta.data.msg==="ERRORDB"){
+        alert("Un error inesperado ocurrio en la bd");
+      }else if(respuesta.data.msg==="UPDATED"){
+        //alert("Se ha actualizado la publicacion");
+        navigate(`/Post/${id}`);
+        
+      }
+      
+    } catch (error) {
+      
+    }
+
+
+    console.log("por si acaso esto no se ejecuta")
+
   };
 
   function validateCampos(categoria, etiqueta, titulo, contenido, municipio) {
@@ -99,6 +171,7 @@ function UpdatePost() {
   useEffect(() => {
     getCategorias();
     getEstados();
+    getPost();
   }, []);
 
   useEffect(() => {
@@ -106,12 +179,13 @@ function UpdatePost() {
       getMunicipios();
     }
   }, [estado]);
+
   return (
     <div className={styles.body}>
       <Navbar></Navbar>
       <div className={styles.updatePost}>
         <div className="container">
-          <form className={styles.register__form} onSubmit={""}>
+          <form className={styles.register__form} onSubmit={updatePost}>
             <div className={styles.updatePost__header}>
               <label className="subtitle">Actualizar publicación</label>
               <div className={styles.category_selector}>
@@ -121,6 +195,7 @@ function UpdatePost() {
                   onChange={(e) => {
                     SetCategoria(e.target.value);
                   }}
+                  value={categoria}
                 >
                   <option value="">Selecciona una categoria</option>
                   {listCategorias.map((categoria) => {
@@ -129,7 +204,7 @@ function UpdatePost() {
                         key={categoria.Categoria_id}
                         value={categoria.Categoria_id}
                       >
-                        {categoria.NombreC}
+                      {categoria.NombreC}
                       </option>
                     );
                   })}
@@ -140,29 +215,53 @@ function UpdatePost() {
               className={styles.updatePost__tag}
               placeholder="Etiqueta"
               onChange={(e) => SetEtiqueta(e.target.value)}
-            ></input>
+              value={etiqueta}
+            />
             <input
               className={styles.updatePost__title}
               onChange={(e) => SetTitulo(e.target.value)}
               placeholder="Título de la publicación"
-            ></input>
+              value={titulo}
+            />
 
             <textarea
               className={styles.updatePost__content}
               onChange={(e) => SetContenido(e.target.value)}
               placeholder="Escribe tu publicación"
+              value={contenido}
             ></textarea>
             <div className={styles.updatePost__media}>
+              
+              {imagen && (
+                <div className={styles.post__image}>
+                  <img
+                    src={imagen}
+                    alt="pastelImage"
+                    className={styles.post__postImage}
+                  />
+                </div>
+              )}
+
               <label className={styles.newPost__labelMedia}>
-                <i class="fa-solid fa-image"></i> Cambiar imagen
+                <i className="fa-solid fa-image"></i> Cambiar imagen
               </label>
               <input
                 className={styles.updatePost__inputMedia}
                 type="file"
                 name="imagen"
                 accept=".jpg, .jpeg, .png"
-                onChange={(e) => SetImagen(e.target.files[0])}
-              ></input>
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setImagenUpdate(e.target.files[0]);
+                  if(file){
+                    const reader = new FileReader();
+                    reader.onloadend = () =>{
+                      SetImagen(reader.result);
+                    }
+                    reader.readAsDataURL(file)
+                  }
+                }
+                }/>
             </div>
             <div className={styles.updatePost__location}>
               <label className={styles.updatePost__label}>Estado</label>
@@ -171,6 +270,7 @@ function UpdatePost() {
                 onChange={(e) => {
                   SetEstado(e.target.value);
                 }}
+                value={estado}
               >
                 <option value="">Selecciona un Estado</option>
                 {listEstados.map((estado) => {
@@ -188,6 +288,7 @@ function UpdatePost() {
                 onChange={(e) => {
                   SetMunicipio(e.target.value);
                 }}
+                value={municipio}
               >
                 <option value="">Selecciona un municipio</option>
                 {listMunicipios.map((municipio) => (
@@ -201,7 +302,7 @@ function UpdatePost() {
               </select>
             </div>
             <button type="submit" className={styles.updatePost__button}>
-              <i class="fa-solid fa-pen"></i>
+              <i className="fa-solid fa-pen"></i>
               Actualizar
             </button>
           </form>

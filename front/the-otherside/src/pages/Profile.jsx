@@ -27,6 +27,10 @@ function Profile() {
     Foto: "",
   });
 
+  const [userPromedio, setUserPromedio] = useState("");
+
+  const skull = <img src={skullIcon} alt="skullIcon" className="skullStyle" />;
+
   const [defaultPic, setDefaultPic] = useState(defaultProfile);
 
   const eliminarPerfil = async () => {
@@ -100,6 +104,7 @@ function Profile() {
       alert("Error en la peticion al obtener publicaciones del usuario");
     }
   };
+
   const updateFotoPerfil = async () => {
     const frmData = new FormData();
     frmData.append("user", user);
@@ -135,6 +140,22 @@ function Profile() {
     }
   };
 
+  const getPromedioUsuario = async () =>{
+
+    try {
+      const resp = await axios.get(`http://localhost:3001/getPromedio/${user}`);
+
+      if(resp.data.msg === "ERRORDB"){
+        alert("Ha ocurrido un error en la base de datos");
+      }else{
+        setUserPromedio(resp.data[0].PromedioPublis);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
   const readFileAsBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -167,8 +188,7 @@ function Profile() {
     }
   };
 
-
-    const getPublisCalificadas = async () => {
+  const getPublisCalificadas = async () => {
     try {
       const resp = await axios.get(
         `http://localhost:3001/userPublis-calificadas/${user}`
@@ -212,6 +232,7 @@ function Profile() {
     getUserData();
     getPublis();
     getPublisCalificadas(); 
+    getPromedioUsuario();
   }, []);
 
   if (!user) return <Navigate to="/" replace />;
@@ -365,6 +386,11 @@ function Profile() {
                 </div>
               </form>
             </div>
+          </div>
+
+          <div className={styles.profile__promedio}>
+                <h2>Tu promedio de publicaciones:</h2>
+                <h2 className={styles.profile__datoPromedio}>{userPromedio ?? "0.0"} {skull}</h2>
           </div>
 
           <div className={styles.profile__buttons}>

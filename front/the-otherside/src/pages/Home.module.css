@@ -44,6 +44,15 @@
   padding: 10px;
 }
 
+.home__ranking-score{
+  font-family: "Bree Serif", serif;
+  font-size: 25px;
+  color: white;
+  display: flex;
+  gap: 5px;
+
+}
+
 .skullIcon {
   width: 25px;
   height: auto;
