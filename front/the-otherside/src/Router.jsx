@@ -11,6 +11,9 @@ import Conspiracion from "./pages/Conspiracion";
 import Misterio from "./pages/Misterio";
 import Brujeria from "./pages/Brujeria";
 import Leyendas from "./pages/Leyendas";
+import Creepypasta from "./pages/Creepypasta";
+import Fantasma from "./pages/Fantasma";
+
 
 function Router() {
   return (
@@ -30,6 +33,8 @@ function Router() {
         <Route path="/Misterio" element={<Misterio />}></Route>
         <Route path="/Brujeria" element={<Brujeria />}></Route>
         <Route path="/Leyendas" element={<Leyendas />}></Route>
+        <Route path="/Creepypasta" element={<Creepypasta />}></Route>
+        <Route path="/Fantasma" element={<Fantasma />}></Route>
       </Routes>
     </BrowserRouter>
   );
