@@ -11,8 +11,10 @@ function NewPost() {
   const [titulo, SetTitulo] = useState("");
   const [contenido, SetContenido] = useState("");
   const [imagen, SetImagen] = useState(null);
+  const [imagenUpdate, setImagenUpdate] = useState(null);
   const [estado, SetEstado] = useState("");
   const [municipio, SetMunicipio] = useState("");
+  const [alertText, setAlertText]= useState(null);
 
   const autor = localStorage.getItem("user");
 
@@ -68,6 +70,7 @@ function NewPost() {
     }
   };
 
+
   function validateCampos(categoria, etiqueta, titulo, contenido, municipio) {
     const errores = [];
 
@@ -76,11 +79,19 @@ function NewPost() {
     }
 
     if (etiqueta === null || etiqueta === undefined || etiqueta.trim() === "") {
-      errores.push("La etiqueta no puede estar vacía.");
+      errores.push("La etiqueta no puede estar vacía. ");
+    }
+
+    if(etiqueta.length>=50){
+      errores.push("La etiqueta no puede tener mas de 50 caracteres. ");
+    }
+
+     if(titulo.length>=255){
+      errores.push("El titulo no puede tener mas de 255 caracteres. ");
     }
 
     if (titulo === null || titulo === undefined || titulo.trim() === "") {
-      errores.push("El título es obligatorio.");
+      errores.push("El título es obligatorio. ");
     }
 
     if (
@@ -88,11 +99,11 @@ function NewPost() {
       contenido === undefined ||
       contenido.trim() === ""
     ) {
-      errores.push("El contenido no puede estar vacío.");
+      errores.push("El contenido no puede estar vacío. ");
     }
 
     if (municipio === null || municipio === undefined || municipio === "") {
-      errores.push("El municipio es obligatorio.");
+      errores.push("El municipio es obligatorio. ");
     }
 
     return errores;
@@ -110,12 +121,12 @@ function NewPost() {
     );
 
     if(imagen === null || imagen === undefined){
-      alert("Agrega imagen");
+      setAlertText("Agrega imagen");
       return;
     }
 
     if (errores.length > 0) {
-      alert(errores);
+      setAlertText(errores);
       return;
     }
 
@@ -142,6 +153,8 @@ function NewPost() {
       } else if (respuesta.data.msg === "Publicado") {
         alert("Publicado");
         navigate("/Home");
+      }else if(respuesta.data.msg==="CREDENCIALES MALAS"){
+         setAlertText("Sus credenciales son incorrectas, intentalo nuevamente"); 
       }
     } catch (error) {}
   };
@@ -192,6 +205,7 @@ function NewPost() {
                 </select>
               </div>
             </div>
+             <h3 className={styles.register__alert} id="register-alerts" > {alertText} </h3>
             <input
               className={styles.newPost__tag}
               placeholder="Etiqueta"
@@ -209,16 +223,38 @@ function NewPost() {
               placeholder="Escribe tu publicación"
             ></textarea>
             <div className={styles.newPost__media}>
+
+                  {imagen && (
+                    <div className={styles.post__image}>
+                      <img
+                        src={imagen}
+                        alt="pastelImage"
+                        className={styles.post__postImage}
+                      />
+                    </div>
+                  )}
+
               <label className={styles.newPost__labelMedia}>
                 <i class="fa-solid fa-image"></i> Agregar imagen
               </label>
-              <input
-                className={styles.newPost__inputMedia}
-                type="file"
-                name="imagen"
-                accept=".jpg, .jpeg, .png"
-                onChange={(e) => SetImagen(e.target.files[0])}
-              ></input>
+
+               <input
+                              className={styles.newPost__inputMedia}
+                              type="file"
+                              name="imagen"
+                              accept=".jpg, .jpeg, .png"
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                setImagenUpdate(e.target.files[0]);
+                                if(file){
+                                  const reader = new FileReader();
+                                  reader.onloadend = () =>{
+                                    SetImagen(reader.result);
+                                  }
+                                  reader.readAsDataURL(file)
+                                }
+                              }
+                              }/>
             </div>
             <div className={styles.newPost__location}>
               <label className={styles.newPost__label}>Estado</label>

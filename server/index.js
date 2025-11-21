@@ -30,6 +30,44 @@ const archivo = multer({
   fileFilter: filter,
 });
 
+function validateCampos(categoria, etiqueta, titulo, contenido, municipio) {
+    let errores = false;
+
+    if (categoria === null || categoria === undefined || categoria === "") {
+     errores=true; 
+    }
+
+    if (etiqueta === null || etiqueta === undefined || etiqueta.trim() === "") {
+      errores=true; 
+    }
+
+    if(etiqueta.length>=50){
+      errores=true; 
+    }
+
+     if(titulo.length>=255){
+      errores=true; 
+    }
+
+    if (titulo === null || titulo === undefined || titulo.trim() === "") {
+      errores=true; 
+    }
+
+    if (
+      contenido === null ||
+      contenido === undefined ||
+      contenido.trim() === ""
+    ) {
+      errores=true; 
+    }
+
+    if (municipio === null || municipio === undefined || municipio === "") {
+      errores=true; 
+    }
+
+    return errores;
+  }
+
 function validteCredentialsRegister(usuario, email, password) {
   var errors = false;
 
@@ -366,6 +404,14 @@ app.post("/new-post", archivo.single("imagen"), (req, resp) => {
   const { categoria, etiqueta, titulo, contenido, municipio, autor } = req.body;
   const imagen = req.file ? req.file.buffer.toString("base64") : null;
 
+     if (validateCampos(categoria, etiqueta, titulo, contenido, municipio)) {
+    resp.json({
+      msg: "CREDENCIALES MALAS",
+    });
+
+    return;
+  }
+
   dbConn.query(
     "INSERT INTO Publicacion (Autor, Titulo, TextoPubli, Imagen, Municipio, Categoria, Etiqueta) VALUES (?,?,?,?,?,?,?)",
     [autor, titulo, contenido, imagen, municipio, categoria, etiqueta],
@@ -429,6 +475,13 @@ app.get("/comentario/:id", (req, resp) => {
 
 app.post("/comentario", (req, resp) => {
   const { usuario, idPubli, texto } = req.body;
+  if(!texto|| texto.trim()===""){
+     resp.json({
+      msg: "CREDENCIALES MALAS",
+    });
+
+    return;
+  }
 
   dbConn.query(
     "INSERT INTO Comentario (TextoComent,AutorComent,PubliComent) VALUES (?,?,?)",
@@ -569,9 +622,16 @@ app.patch("/updatePost", archivo.single("imagen"), (req, resp) => {
     req.body;
   const imagen = req.file ? req.file.buffer.toString("base64") : null;
 
+   if (validateCampos(categoria, etiqueta, titulo, contenido, municipio)) {
+    resp.json({
+      msg: "CREDENCIALES MALAS",
+    });
+
+    return;
+  }
   dbConn.query(
-    "UPDATE Publicacion SET Categoria = (?), Etiqueta = (?), Titulo = (?), TextoPubli = (?), Municipio = (?), Imagen = (?) WHERE Publicacion_id = (?)",
-    [categoria, etiqueta, titulo, contenido, municipio, imagen, idPubli],
+    "UPDATE Publicacion SET Categoria = (?), Etiqueta = (?), Titulo = (?), TextoPubli = (?), Municipio = (?), Imagen = CASE WHEN (?) IS NULL OR (?)='' THEN Imagen ELSE (?) END WHERE Publicacion_id = (?)",
+    [categoria, etiqueta, titulo, contenido, municipio, imagen,imagen,imagen, idPubli],
     (err, result) => {
       if (err) {
         resp.json({

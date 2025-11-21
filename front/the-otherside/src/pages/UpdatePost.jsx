@@ -9,6 +9,7 @@ function UpdatePost() {
   const { id } = useParams();
 
   const [categoria, SetCategoria] = useState("");
+  const [alertText, setAlertText]= useState(null);
   const [etiqueta, SetEtiqueta] = useState("");
   const [titulo, SetTitulo] = useState("");
   const [contenido, SetContenido] = useState("");
@@ -99,11 +100,19 @@ function UpdatePost() {
 
     console.log(imagenUpdate)
 
+     const errores = validateCampos(
+      categoria,
+      etiqueta,
+      titulo,
+      contenido,
+      municipio
+    );
     
-    if(imagenUpdate === null){
-      alert("Eliga una foto por favor");
+    if (errores.length > 0) {
+      setAlertText(errores);
       return;
     }
+
 
     const frmPubli = new FormData();
     frmPubli.append("idPubli",id)
@@ -124,6 +133,8 @@ function UpdatePost() {
 
       if(respuesta.data.msg==="ERRORDB"){
         alert("Un error inesperado ocurrio en la bd");
+      }else if(respuesta.data.msg==="CREDENCIALES MALAS"){
+         setAlertText("Sus credenciales son incorrectas, intentalo nuevamente"); 
       }else if(respuesta.data.msg==="UPDATED"){
         //alert("Se ha actualizado la publicacion");
         navigate(`/Post/${id}`);
@@ -139,6 +150,7 @@ function UpdatePost() {
 
   };
 
+
   function validateCampos(categoria, etiqueta, titulo, contenido, municipio) {
     const errores = [];
 
@@ -147,11 +159,19 @@ function UpdatePost() {
     }
 
     if (etiqueta === null || etiqueta === undefined || etiqueta.trim() === "") {
-      errores.push("La etiqueta no puede estar vacía.");
+      errores.push("La etiqueta no puede estar vacía. ");
+    }
+
+    if(etiqueta.length>=50){
+      errores.push("La etiqueta no puede tener mas de 50 caracteres. ");
+    }
+
+     if(titulo.length>=255){
+      errores.push("El titulo no puede tener mas de 255 caracteres. ");
     }
 
     if (titulo === null || titulo === undefined || titulo.trim() === "") {
-      errores.push("El título es obligatorio.");
+      errores.push("El título es obligatorio. ");
     }
 
     if (
@@ -159,11 +179,11 @@ function UpdatePost() {
       contenido === undefined ||
       contenido.trim() === ""
     ) {
-      errores.push("El contenido no puede estar vacío.");
+      errores.push("El contenido no puede estar vacío. ");
     }
 
     if (municipio === null || municipio === undefined || municipio === "") {
-      errores.push("El municipio es obligatorio.");
+      errores.push("El municipio es obligatorio. ");
     }
 
     return errores;
@@ -211,6 +231,7 @@ function UpdatePost() {
                 </select>
               </div>
             </div>
+            <h3 className={styles.register__alert} id="register-alerts" > {alertText} </h3>
             <input
               className={styles.updatePost__tag}
               placeholder="Etiqueta"

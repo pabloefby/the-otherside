@@ -39,6 +39,10 @@ function Post() {
 
   const sendComment = async (e) => {
     e.preventDefault();
+    if(commentText===null || commentText.trim()===""){
+      setCommentText(""); 
+      return; 
+    }
 
     try {
       const respuesta = await axios.post("http://localhost:3001/comentario", {
