@@ -27,7 +27,7 @@ function Router() {
         <Route path="/Profile" element={<Profile />}></Route>
         <Route path="/NewPost" element={<NewPost />}></Route>
         <Route path="/Post/:id" element={<Post />}></Route>
-        <Route path="/UpdatePost" element={<UpdatePost />}></Route>
+        <Route path="/UpdatePost/:id" element={<UpdatePost />}></Route>
         <Route path="/Alien" element={<Alien />}></Route>
         <Route path="/Conspiracion" element={<Conspiracion />}></Route>
         <Route path="/Misterio" element={<Misterio />}></Route>

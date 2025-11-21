@@ -3,10 +3,10 @@ import defaultProfile from "../assets/defaultProfile.png";
 import skullIcon from "../assets/skullIcon.png";
 import { useNavigate } from "react-router-dom";
 
-export function PostPreview({ publiData }) {
+export function PostPreview({ publiData, origin }) {
 
   const navigate = useNavigate();
-
+  const user = localStorage.getItem("user");
   const skull = (
     <img src={skullIcon} alt="skullIconAlt" className="skullStyle" />
   );
@@ -63,6 +63,25 @@ export function PostPreview({ publiData }) {
           navigate(`/Post/${publiData.Publicacion_id}`);
         }} className={styles.postPreview__read}>Leer mas...</button>
       </div>
+      {user==publiData.Autor && origin==="Profile" && (
+<div className={styles.contenedor}>
+          <div className={styles.postPreview_btnEditYElim}>
+                   <button
+                      type="button"
+                      className={styles.postPreview__edit_Button}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.postPreview__delete_Button}
+                    >
+                      Eliminar
+                    </button>
+          </div>
+          </div>
+      )}
+      
     </div>
   );
 }

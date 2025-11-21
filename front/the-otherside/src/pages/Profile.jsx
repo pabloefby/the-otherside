@@ -387,6 +387,7 @@ function Profile() {
                 <PostPreview
                   key={publi.Publicacion_id}
                   publiData={publi}
+                   origin="Profile"
                 ></PostPreview>
             ))
           )}

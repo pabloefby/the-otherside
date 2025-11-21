@@ -149,8 +149,8 @@ function Post() {
             )}
             <div className={styles["post__score"]}>
               <label>Calificación:</label>
-              {thisPost?.Calificacion ?? "N/A"}
               {skull}
+              {thisPost?.Calificacion ?? "N/A"}          
             </div>
 
             <div className={styles["post__rate"]}>

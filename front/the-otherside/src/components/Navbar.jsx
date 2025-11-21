@@ -31,6 +31,14 @@ export function Navbar() {
         navigate("/Conspiracion");
         break;
 
+      case "Creepypasta":
+        navigate("/Creepypasta");
+        break;
+
+      case "Fantasma":
+        navigate("/Fantasma");
+        break;
+
 
       default:
         break;
@@ -60,8 +68,12 @@ export function Navbar() {
         <button className={styles.navbar__button}
         onClick={() => handleNavigate("Conspiracion")}
         >CONSPIRACION</button>
-        <button className={styles.navbar__button}>CREEPYPASTA</button>
-        <button className={styles.navbar__button}>FANTASMA</button>
+        <button className={styles.navbar__button}
+        onClick={() => handleNavigate("Creepypasta")}
+        >CREEPYPASTA</button>
+        <button className={styles.navbar__button}
+        onClick={() => handleNavigate("Fantasma")}
+        >FANTASMA</button>
       </div>
       <div className={styles.navbar__session}>
         <Link to="/Profile" className={styles["navar__image-link"]}>

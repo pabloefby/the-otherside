@@ -92,4 +92,22 @@
     gap: 5px;
 }
 
+.postPreview_btnEditYElim {
+  display: flex;
+}
+.postPreview__delete_Button {
+  margin: 0 15px;
+  font-family: "Bree Serif", serif;
+  background-color: #b84848;
+}
+
+.contenedor {
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 

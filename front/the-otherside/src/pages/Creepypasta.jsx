@@ -9,14 +9,33 @@ import amigo from "../assets/amigo.png";
 import rocks from "../assets/rocks.png";
 import xenomorfo from "../assets/xenomorfo.png";
 
-function Alien() {
+function Creepypasta() {
   const user = localStorage.getItem("user");
   const [publis, setPublis] = useState([]);
+  const [publisTrend, setPublisTrend] = useState([]);
   const [alertText, setAlertText] = useState("");
+
+   const getPublisTrend = async () => {
+    try {
+      const resp = await axios.get(`http://localhost:3001/publis-category-trend/${"Creepypasta"}`);
+      if (resp.data.msg === "Error BD") {
+        alert("Error con la BD");
+      } else if (resp.data.msg === "Vacio") {
+        setAlertText("Aun no hay publicaciones");
+        setPublisTrend([]);
+      } else {
+        setPublisTrend(resp.data);
+        console.log(resp.data);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error en la peticion al obtener publicaciones");
+    }
+  };
 
   const getPublis = async () => {
     try {
-       const resp = await axios.get(`http://localhost:3001/publis-category/${"Leyendas"}`);
+       const resp = await axios.get(`http://localhost:3001/publis-category/${"Creepypasta"}`);
       if (resp.data.msg === "Error BD") {
         alert("Error con la BD");
       } else if (resp.data.msg === "Vacio") {
@@ -34,6 +53,7 @@ function Alien() {
 
   useEffect(() => {
     getPublis();
+    getPublisTrend();
   }, []);
 
   return (
@@ -54,7 +74,7 @@ function Alien() {
             <label className="subtitle">Tendencia</label>
           </div>
           <div className="content">
-            {publis.map((publi, key) => {
+             {publisTrend.map((publi) => {
               return (
                 <PostPreview
                   key={publi.Publicacion_id}
@@ -83,4 +103,4 @@ function Alien() {
     </div>
   );
 }
-export default Alien;
+export default Creepypasta;
