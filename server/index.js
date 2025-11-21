@@ -237,11 +237,34 @@ app.get("/publis-point", (req, resp) => {
   );
 });
 
+app.get("/publis-category-trend/:categoria", (req, resp) => {
+  const categoria = req.params.categoria;
+  dbConn.query(
+    "CALL SP_Subforos(1, ?)",
+    [categoria],
+    (err, result) => {
+      if (err) {
+        resp.json({
+          msg: "Error BD"
+        });
+        console.log(err);
+      } else if (result.length > 0) {
+        resp.json(result[0]);
+        console.log(result[0]);
+      } else {
+        resp.json({
+          msg: "Vacio"
+        });
+      }
+    }
+  );
+});
+
 app.get("/publis-category/:categoria", (req, resp) => {
   const categoria = req.params.categoria;
 
   dbConn.query(
-    "SELECT * FROM VW_Publicacion WHERE Categoria = (?) ORDER BY FechaCreacion DESC",
+    "CALL SP_Subforos(2, ?)",
     [categoria],
     (err, result) => {
       if (err) {
@@ -250,7 +273,7 @@ app.get("/publis-category/:categoria", (req, resp) => {
         });
         console.log(err);
       } else if (result.length > 0) {
-        resp.json(result);
+        resp.json(result[0]);
         //console.log(result);
       } else {
         resp.json({

@@ -11,7 +11,7 @@ export function PostPreview({ publiData }) {
     <img src={skullIcon} alt="skullIconAlt" className="skullStyle" />
   );
 
-  const calif = Math.round(publiData.Calificacion);
+  const calif = Math.floor(publiData.Calificacion);
   const previewText =
     publiData.TextoPubli.length > 360
       ? publiData.TextoPubli.substring(0, 360) + "..."
@@ -51,7 +51,13 @@ export function PostPreview({ publiData }) {
       </div>
       <div className={styles.postPreview__actions}>
         <div className={styles.postPreview__score}>
-          {publiData.Calificacion ?? "N/A"} {skull}
+          {Array.from({ length: calif }).map((_, i) => (
+            <span key={i}>{skull}</span>
+          ))}
+          {publiData.Calificacion 
+          ? Number(publiData.Calificacion).toFixed(1)
+          : "N/A"
+          }
         </div>
         <button onClick={(e) =>{
           navigate(`/Post/${publiData.Publicacion_id}`);
