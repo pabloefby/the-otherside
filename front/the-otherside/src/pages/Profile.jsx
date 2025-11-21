@@ -18,6 +18,7 @@ function Profile() {
   const user = localStorage.getItem("user");
   const [editPerfil, setEditPerfil] = useState(false);
   const [publis, setPublis] = useState([]);
+  const [alertText, setAlertText]= useState(""); 
   const [publisCalificadas, setPublisCalificadas] = useState([]);
   const [modalBorrar, setModalBorrar] = useState(false);
   const [publiCalif, setPubliCalif] = useState(false); 
@@ -32,6 +33,26 @@ function Profile() {
   const skull = <img src={skullIcon} alt="skullIcon" className="skullStyle" />;
 
   const [defaultPic, setDefaultPic] = useState(defaultProfile);
+
+    function validteCredentials(email, password){
+
+    const regesEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const regexPassword = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+    if (!regesEmail.test(email)) {
+      setAlertText("El correo electrónico no es válido.");
+      return false; 
+    }
+    if (!regexPassword.test(password)) {
+     setAlertText("La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un carácter especial.");
+     return false; 
+    }
+
+    setAlertText(""); 
+    return true; 
+
+  }
+
 
   const eliminarPerfil = async () => {
     try {
@@ -57,6 +78,14 @@ function Profile() {
         setEditPerfil(true);
       } else {
         setEditPerfil(false);
+
+ const validationErrors = validteCredentials(userData.Correo, userData.Pssword);
+    
+    if (!validationErrors) {
+      setEditPerfil(true); 
+      return;
+    }
+
         const resp = await axios.patch("http://localhost:3001/userData-point", {
           name: user,
           email: userData.Correo,
@@ -65,7 +94,9 @@ function Profile() {
 
         if (resp.data.msg === "Error BD") {
           alert("Error en la BD al editar");
-        } else if (resp.data.msg === "Usuario Editado") {
+        } else if(resp.data.msg==="CREDENCIALES MALAS"){
+         setAlertText("Sus credenciales son incorrectas, intentalo nuevamente"); 
+      } else if (resp.data.msg === "Usuario Editado") {
           console.log("Usuario editado exitosamente");
           if (fotoPerfil) {
             try {
@@ -363,7 +394,9 @@ function Profile() {
                     value={userData.Pssword}
                     onChange={handleChange}
                   ></input>
+                  <h3 className={styles.profile__alert} id="register-alerts" > {alertText} </h3>
                 </div>
+                
                 <div className="container">
                   <div className={styles.profile_btnEditYElim}>
                     <button

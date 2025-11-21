@@ -68,6 +68,22 @@ function validateCampos(categoria, etiqueta, titulo, contenido, municipio) {
     return errores;
   }
 
+  function validteCredentialsEditProfile(email, password) {
+  var errors = false;
+
+  const regesEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const regexPassword = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+  if (!regesEmail.test(email)) {
+    errors = true;
+  }
+  if (!regexPassword.test(password)) {
+    errors = true;
+  }
+
+  return errors;
+}
+
 function validteCredentialsRegister(usuario, email, password) {
   var errors = false;
 
@@ -234,6 +250,14 @@ app.get("/userData-point/:user", (req, resp) => {
 
 app.patch("/userData-point", (req, resp) => {
   const { name, email, passW } = req.body;
+
+  if (validteCredentialsEditProfile(email, passW)) {
+    resp.json({
+      msg: "CREDENCIALES MALAS",
+    });
+
+    return;
+  }
 
   dbConn.query(
     "CALL sp_Usuario(4,?,?,?)",

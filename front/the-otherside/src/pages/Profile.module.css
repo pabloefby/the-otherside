@@ -231,3 +231,10 @@
   bottom: 0%;
   left: -3%;
 }
+
+.profile__alert {
+  margin-top: 5px;
+  min-height: 1.5em;
+  color: rgb(172, 52, 52);
+  width: 60%;
+}
