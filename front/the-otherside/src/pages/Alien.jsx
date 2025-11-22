@@ -6,8 +6,8 @@ import axios from "axios";
 import { PostPreview } from "../components/PostPreview";
 import alienCollage from "../assets/alienCollage.png";
 import glorp from "../assets/glorp.png";
-//import rocks from "../assets/rocks.png";
-//import xenomorfo from "../assets/xenomorfo.png";
+import rocks from "../assets/rocks.png";
+import xenomorfo from "../assets/xenomorfo.png";
 
 function Alien() {
   //const user = localStorage.getItem("user");
@@ -68,6 +68,8 @@ function Alien() {
           />
         </div>
         <img src={glorp} alt="glorp" className={styles.glorp} />
+         <img src={rocks} alt="rocks" className={styles.rocks} />
+          <img src={xenomorfo} alt="xenomorfo" className={styles.xenomorfo} />
 
         <div className="container">
           <div className="topSection">

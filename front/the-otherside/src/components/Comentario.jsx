@@ -11,7 +11,6 @@ function Comentario({ commentData }) {
   const fechaLocal = `creado en ${fecha.toLocaleString()}`;
 
   const deleteComment = async (idComment) => {
-    alert(idComment);
 
     try {
       const respuesta = await axios.delete(

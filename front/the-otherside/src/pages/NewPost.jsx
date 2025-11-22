@@ -151,7 +151,7 @@ function NewPost() {
       if (respuesta.data.msg === "ErrorDB") {
         alert("Error al publicar con la db");
       } else if (respuesta.data.msg === "Publicado") {
-        alert("Publicado");
+        
         navigate("/Home");
       }else if(respuesta.data.msg==="CREDENCIALES MALAS"){
          setAlertText("Sus credenciales son incorrectas, intentalo nuevamente"); 

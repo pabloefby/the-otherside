@@ -116,7 +116,7 @@ function validateCredentialsLogin(usuario, password) {
 
 function ErrorLog(error) {
   const msgError = `ERROR: ${
-    error.message
+    error
   } \nFecha: ${new Date().toISOString()}\n\n `;
 
   fs.appendFile('errors.txt',msgError, (err)=>{
