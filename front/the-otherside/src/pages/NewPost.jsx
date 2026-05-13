@@ -120,7 +120,7 @@ function NewPost() {
       municipio
     );
 
-    if(imagen === null || imagen === undefined){
+    if(imagenUpdate === null || imagenUpdate === undefined){
       setAlertText("Agrega imagen");
       return;
     }
@@ -137,7 +137,7 @@ function NewPost() {
     frmPubli.append("contenido", contenido);
     frmPubli.append("municipio", municipio);
     frmPubli.append("autor", autor);
-    frmPubli.append("imagen", imagen);
+    frmPubli.append("imagen", imagenUpdate);
 
     try {
       const respuesta = await axios.post(
